@@ -32,7 +32,9 @@ setMethod("plot", signature(x = "bspline+", y = "missing"),
               if(!"ylab" %in% names(args))
                   args = c(args, ylab = "B-spline basis")
               y = feval(x, x0)
-              args = c(list(x = x0, y = y[, -x@dropind]), args)
+              if(length(x@dropind))
+                  y = y[, -x@dropind]
+              args = c(list(x = x0, y = y), args)
               do.call(graphics::matplot, args)
           }
 )
