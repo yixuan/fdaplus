@@ -1,0 +1,12 @@
+# useDynLib(fdaplus)
+import(Rcpp)
+import(methods)
+
+export(wrap)
+S3method(wrap, basisfd)
+
+export(feval)
+importFrom(graphics, plot)
+exportMethods(plot)
+
+exportClasses("basis+", "bspline+")

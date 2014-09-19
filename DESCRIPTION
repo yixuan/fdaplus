@@ -1,0 +1,12 @@
+Package: fdaplus
+Type: Package
+Title: Enhancement of the fda package
+Version: 0.1
+Date: 2014-09-18
+Author: Yixuan Qiu
+Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
+Description: Enhancement of the fda package
+License: GPL (>= 2)
+Depends: methods
+Imports: Rcpp (>= 0.11.0)
+LinkingTo: Rcpp
