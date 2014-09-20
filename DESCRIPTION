@@ -9,4 +9,4 @@ Description: Enhancement of the fda package
 License: GPL (>= 2)
 Depends: methods
 Imports: Rcpp (>= 0.11.0)
-LinkingTo: Rcpp
+LinkingTo: Rcpp, RcppEigen
