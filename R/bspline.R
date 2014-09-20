@@ -12,12 +12,11 @@ wrap.basisfd = function(obj, ...)
 
 setMethod("feval", signature(f = "bspline+", x = "numeric"),
           function(f, x, ...) {
-              mat = bs(x, knots = f@knots,
-                       degree = f@degree,
-                       intercept = TRUE,
-                       Boundary.knots = f@range)
-              ## Preserve dim and dimnames
-              attributes(mat) = attributes(mat)[c("dim", "dimnames")]
+              ord = f@degree + 1
+              mat = splineDesign(c(rep(f@range[1], ord),
+                                   f@knots,
+                                   rep(f@range[2], ord)),
+                                 x, ord, ...)
               return(mat)
           }
 )
