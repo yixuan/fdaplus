@@ -43,7 +43,14 @@ setMethod("%*%", signature(x = "bspline+", y = "bspline+"),
           function(x, y) {
               if(!isTRUE(all.equal(x@range, y@range)))
                   stop("range of x and y must be the same")
-              res = .Call("bspline_inprod", x, y, x@range)
+              
+              ordx = as.integer(x@degree + 1)
+              ordy = as.integer(y@degree + 1)
+              allknotsx = as.numeric(c(rep(x@range[1], ordx), x@knots,
+                                       rep(x@range[2], ordx)))
+              allknotsy = as.numeric(c(rep(y@range[1], ordy), y@knots,
+                                       rep(y@range[2], ordy)))
+              res = .Call("bspline_inprod", x, y, allknotsx, allknotsy)
               dim(res) = c(x@nbasis, y@nbasis)
               if(!length(x@dropind) & !length(y@dropind))
                   return(res)
