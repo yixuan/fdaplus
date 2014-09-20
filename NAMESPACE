@@ -5,8 +5,7 @@ import(methods)
 export(wrap)
 S3method(wrap, basisfd)
 
-export(feval)
 importFrom(graphics, plot)
-exportMethods(plot)
+exportMethods(feval, plot, "%*%")
 
 exportClasses("basis+", "bspline+")

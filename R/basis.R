@@ -22,3 +22,6 @@ wrap = function(obj, ...)
 ## Evaluate functional data objects
 if(!isGeneric("feval"))
     setGeneric("feval", function(f, x, ...) standardGeneric("feval"))
+
+if(!isGeneric("plot"))
+    setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
