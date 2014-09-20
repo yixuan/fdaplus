@@ -11,7 +11,8 @@ protected:
     int nevals;
     MapVec result;
 public:
-    VectorIntegrand(int nfuns_) : nfuns(nfuns_), result(NULL, nfuns) {}
+    VectorIntegrand(int nfuns_) :
+        nfuns(nfuns_), nevals(0), result(NULL, nfuns) {}
     void setOutput(double *target_)
     {
         new (&result) MapVec(target_, nfuns);
@@ -35,7 +36,8 @@ protected:
     MapMat result;
 public:
     VectorIntegrandBatch(int nfuns_) :
-        nfuns(nfuns_), npoints(1), result(NULL, nfuns, npoints) {}
+        nfuns(nfuns_), npoints(1), nevals(0),
+        result(NULL, nfuns, npoints) {}
     void setOutput(int npoints_, double *target_)
     {
         npoints = npoints_;
