@@ -2,9 +2,10 @@ wrap.basisfd = function(obj, ...)
 {
     if(obj$type == "bspline")
         res = new("bspline+",
-                  rangeval = obj$rangeval,
+                  range = obj$rangeval,
                   nbasis = obj$nbasis,
                   dropind = as.numeric(obj$dropind),
+                  degree = obj$nbasis - length(obj$params) - 1,
                   knots = as.numeric(obj$params))
 }
 
@@ -12,9 +13,9 @@ wrap.basisfd = function(obj, ...)
 setMethod("feval", signature(f = "bspline+", x = "numeric"),
           function(f, x, ...) {
               mat = bs(x, knots = f@knots,
-                       degree = f@nbasis - length(f@knots) - 1,
+                       degree = f@degree,
                        intercept = TRUE,
-                       Boundary.knots = f@rangeval)
+                       Boundary.knots = f@range)
               ## Preserve dim and dimnames
               attributes(mat) = attributes(mat)[c("dim", "dimnames")]
               return(mat)
@@ -23,7 +24,7 @@ setMethod("feval", signature(f = "bspline+", x = "numeric"),
 
 setMethod("plot", signature(x = "bspline+", y = "missing"),
           function(x, y, ...) {
-              x0 = seq(x@rangeval[1], x@rangeval[2], length.out = 101)
+              x0 = seq(x@range[1], x@range[2], length.out = 101)
               args = list(...)
               if(!"type" %in% names(args))
                   args = c(args, type = "l")
@@ -41,10 +42,14 @@ setMethod("plot", signature(x = "bspline+", y = "missing"),
 
 setMethod("%*%", signature(x = "bspline+", y = "bspline+"),
           function(x, y) {
-              if(!isTRUE(all.equal(x@rangeval, y@rangeval)))
+              if(!isTRUE(all.equal(x@range, y@range)))
                   stop("range of x and y must be the same")
-              res = .Call("bspline_inprod", x, y, x@rangeval)
+              res = .Call("bspline_inprod", x, y, x@range)
               dim(res) = c(x@nbasis, y@nbasis)
-              return(res)
+              if(!length(x@dropind) & !length(y@dropind))
+                  return(res)
+              else
+                  return(res[setdiff(1:nrow(res), x@dropind),
+                             setdiff(1:ncol(res), y@dropind)])
           }
 )

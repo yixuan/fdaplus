@@ -1,16 +1,21 @@
-setClass("basis+", slots = c(rangeval = "numeric",
+setClass("basis+", slots = c(range = "numeric",
                              nbasis = "numeric",
                              dropind = "numeric")
 )
 
 setClass("bspline+", contains = "basis+",
-         slots = c(knots = "numeric"),
-         prototype = list(rangeval = c(0, 1),
+         slots = c(degree = "numeric", knots = "numeric"),
+         prototype = list(range = c(0, 1),
                           nbasis = 4,
                           dropind = numeric(0),
+                          degree = 3,
                           knots = numeric(0)),
          validity = function(object) {
-             TRUE
+             if(length(object@range) != 2)
+                 return("range must be a vector of length 2")
+             if(object@nbasis != object@degree + length(object@knots) + 1)
+                 return("nbasis must be equal to degree+length(knots)+1")
+             return(TRUE)
          }
 )
 
