@@ -38,3 +38,13 @@ setMethod("plot", signature(x = "bspline+", y = "missing"),
               do.call(graphics::matplot, args)
           }
 )
+
+setMethod("%*%", signature(x = "bspline+", y = "bspline+"),
+          function(x, y) {
+              if(!isTRUE(all.equal(x@rangeval, y@rangeval)))
+                  stop("range of x and y must be the same")
+              res = .Call("bspline_inprod", x, y, x@rangeval)
+              dim(res) = c(x@nbasis, y@nbasis)
+              return(res)
+          }
+)
