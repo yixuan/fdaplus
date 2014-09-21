@@ -121,15 +121,10 @@ BEGIN_RCPP
     int nbasisY = as<int>(basisY.slot("nbasis"));
     int orderX = as<int>(basisX.slot("degree")) + 1;
     int orderY = as<int>(basisY.slot("degree")) + 1;
-//    
-//    NumericVector xval = NumericVector::create(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1);
-//    IntegerVector deriv(11, 0);
-//    return spline_basis(knotsX, wrap(orderX), xval, deriv);
-    
+   
     BsplineIntegrand integr(nbasisX, nbasisY,
                             knotsX, knotsY, orderX, orderY);
     VectorCubatureBatch cuba(&integr, intrange[0], intrange[1]);
-    Rprintf("%d\n", cuba.iterations());
     return wrap(cuba.values());
     /*
     return List::create(Named("value") = wrap(cuba.values()),
