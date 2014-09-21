@@ -10,7 +10,7 @@ SEXP spline_basis(SEXP knots, SEXP order, SEXP xvals, SEXP derivs);
 
 }
 
-class BsplineIntegrand : public VectorIntegrandBatch
+class BsplineInprod : public VectorIntegrandBatch
 {
 private:
     int nbasisX;
@@ -22,9 +22,9 @@ private:
     IntegerVector SorderX;
     IntegerVector SorderY;
 public:
-    BsplineIntegrand(int nbasisx_, int nbasisy_,
-                     SEXP knotsx_, SEXP knotsy_,
-                     int orderx_, int ordery_) :
+    BsplineInprod(int nbasisx_, int nbasisy_,
+                  SEXP knotsx_, SEXP knotsy_,
+                  int orderx_, int ordery_) :
         VectorIntegrandBatch(nbasisx_ * nbasisy_),
         nbasisX(nbasisx_), nbasisY(nbasisy_),
         knotsX(knotsx_), knotsY(knotsy_),
@@ -122,8 +122,8 @@ BEGIN_RCPP
     int orderX = as<int>(basisX.slot("degree")) + 1;
     int orderY = as<int>(basisY.slot("degree")) + 1;
    
-    BsplineIntegrand integr(nbasisX, nbasisY,
-                            knotsX, knotsY, orderX, orderY);
+    BsplineInprod integr(nbasisX, nbasisY,
+                         knotsX, knotsY, orderX, orderY);
     VectorCubatureBatch cuba(&integr, intrange[0], intrange[1]);
     return wrap(cuba.values());
     /*
