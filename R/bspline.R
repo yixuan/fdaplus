@@ -67,8 +67,8 @@ setMethod("penmat", signature(basis = "bspline+", penalty = "numeric"),
               if(penalty < 0)
                   stop("'penalty' must be >= 0")
               if(penalty >= ord)
-                  return(matrix(0, basis@nbasis - length(basis@dropind,
-                                basis@nbasis - length(basis@dropind))))
+                  return(matrix(0, basis@nbasis - length(basis@dropind),
+                                basis@nbasis - length(basis@dropind)))
               allknots = as.numeric(c(rep(basis@range[1], ord),
                                       basis@knots,
                                       rep(basis@range[2], ord)))
