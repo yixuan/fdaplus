@@ -17,6 +17,7 @@ Authors@R: c(person(given = "Yixuan", family = "Qiu",
 Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
 Description: Enhancement of the fda package
 License: GPL (>= 2)
+Copyright: see file COPYRIGHTS
 Depends: methods
 Imports: splines, Rcpp (>= 0.11.0)
 LinkingTo: Rcpp, RcppEigen
