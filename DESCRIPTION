@@ -1,9 +1,19 @@
 Package: fdaplus
 Type: Package
-Title: Enhancement of the fda package
+Title: Enhancement of the fda package for functional data analysis
 Version: 0.1
 Date: 2014-09-18
-Author: Yixuan Qiu
+Authors@R: c(person(given = "Yixuan", family = "Qiu",
+                    role = c("aut", "cre")),
+             person(given = "Steven", family = "Johnson",
+                    role = c("ctb", "cph"),
+                    comment = "the cubature program"),
+             person(given = "Douglas", family = "Bates",
+                    role = c("ctb", "cph"),
+                    comment = "splines.c file"),
+             person(given = "William", family = "Venables",
+                    role = c("ctb", "cph"),
+                    comment = "splines.c file"))
 Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
 Description: Enhancement of the fda package
 License: GPL (>= 2)
