@@ -4,7 +4,8 @@ Title: Enhancement of the fda package for functional data analysis
 Version: 0.1
 Date: 2014-09-18
 Authors@R: c(person(given = "Yixuan", family = "Qiu",
-                    role = c("aut", "cre")),
+                    role = c("aut", "cre"),
+                    email = "yixuan.qiu@cos.name"),
              person(given = "Steven", family = "Johnson",
                     role = c("ctb", "cph"),
                     comment = "the cubature program"),
