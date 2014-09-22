@@ -1,4 +1,11 @@
-The file splines.c in src directory is under
+For the cubature program, including files
+    converged.h
+    cubature.h
+    hcubature.c
+    vwrapper.h
+in the src directory,
+    Copyright (c) 2005-2013 Steven G. Johnson
 
-Copyright (C) 1998 Douglas M. Bates and William N. Venables
+The file splines.c in src directory is under
+    Copyright (C) 1998 Douglas M. Bates and William N. Venables
 
