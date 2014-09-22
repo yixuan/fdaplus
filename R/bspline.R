@@ -59,3 +59,24 @@ setMethod("%*%", signature(x = "bspline+", y = "bspline+"),
                              setdiff(1:ncol(res), y@dropind)])
           }
 )
+
+setMethod("penmat", signature(basis = "bspline+", penalty = "numeric"),
+          function(basis, penalty, ...) {
+              ord = as.integer(basis@degree + 1)
+              penalty = as.integer(penalty)
+              if(penalty < 0)
+                  stop("'penalty' must be >= 0")
+              if(penalty >= ord)
+                  return(matrix(0, basis@nbasis - length(basis@dropind,
+                                basis@nbasis - length(basis@dropind))))
+              allknots = as.numeric(c(rep(basis@range[1], ord),
+                                      basis@knots,
+                                      rep(basis@range[2], ord)))
+              res = .Call("bspline_penmat", basis, allknots, penalty)
+              if(!length(basis@dropind))
+                  return(res)
+              else
+                  return(res[setdiff(1:nrow(res), basis@dropind),
+                             setdiff(1:ncol(res), basis@dropind)])
+          }
+)

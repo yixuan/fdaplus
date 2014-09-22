@@ -30,3 +30,7 @@ if(!isGeneric("feval"))
 
 if(!isGeneric("plot"))
     setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
+
+if(!isGeneric("penmat"))
+    setGeneric("penmat", function(basis, penalty, ...)
+        standardGeneric("penmat"))
