@@ -5,6 +5,7 @@ wrap.basisfd = function(obj, ...)
                   range = obj$rangeval,
                   nbasis = obj$nbasis,
                   dropind = as.numeric(obj$dropind),
+                  ncoef = obj$nbasis - length(obj$dropind),
                   degree = obj$nbasis - length(obj$params) - 1,
                   knots = as.numeric(obj$params))
 }
@@ -67,8 +68,7 @@ setMethod("penmat", signature(basis = "bspline+", penalty = "numeric"),
               if(penalty < 0)
                   stop("'penalty' must be >= 0")
               if(penalty >= ord)
-                  return(matrix(0, basis@nbasis - length(basis@dropind),
-                                basis@nbasis - length(basis@dropind)))
+                  return(matrix(0, basis@ncoef, basis@ncoef)
               allknots = as.numeric(c(rep(basis@range[1], ord),
                                       basis@knots,
                                       rep(basis@range[2], ord)))
