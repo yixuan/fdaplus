@@ -29,17 +29,32 @@ wrap = function(obj, ...)
 
 
 ## Evaluate functional data objects
+## *** For basis+ class, it returns an n by p matrix
+##     n is the length of x, p is the number of basis functions
 if(!isGeneric("feval"))
     setGeneric("feval", function(f, x, ...) standardGeneric("feval"))
 
+## Plot functional data objects
 if(!isGeneric("plot"))
     setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 
+## Inner product of functional data objects
+## *** For basis+ class, it returns an p by p matrix
+##     p is the number of basis functions
+##     P(i, j) = integrate B_i(x) * B_j(x) dx
+if(!isGeneric("%*%"))
+    setGeneric("%*%")
+
+## Penalty matrix of basis function
+## P(i, j) = integrate B^(k)_i(x) * B^(k)_j(x) dx
+## k is the order of derivative, given by the "penalty" argument
 if(!isGeneric("penmat"))
     setGeneric("penmat", function(basis, penalty, ...)
         standardGeneric("penmat"))
 
-## Plot basis functions
+
+## A generic implementation of plot() for basis+ class
+## Will call feval()
 setMethod("plot", signature(x = "basis+", y = "missing"),
           function(x, y, ...) {
               x0 = seq(x@range[1], x@range[2], length.out = 101)
