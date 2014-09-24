@@ -1,3 +1,5 @@
+## coefs is a n by p matrix
+## n is the number of functions, p is the number of basis functions
 setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
          validity = function(object) {
              if(ncol(object@coefs) != object@basis@ncoef)
@@ -10,7 +12,7 @@ setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
 ## Will call feval() on the basis
 setMethod("feval", signature(f = "fd+", x = "numeric"),
           function(f, x, ...) {
-              feval(f@basis, x) %*% t(f@coefs)
+              f@coefs %*% feval(f@basis, x)
           }
 )
 
@@ -28,7 +30,7 @@ setMethod("plot", signature(x = "fd+", y = "missing"),
               if(!"ylab" %in% names(args))
                   args = c(args, ylab = "Functional data")
               y = feval(x, x0)
-              args = c(list(x = x0, y = y), args)
+              args = c(list(x = x0, y = t(y)), args)
               do.call(graphics::matplot, args)
           }
 )

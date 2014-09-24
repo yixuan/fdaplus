@@ -29,8 +29,10 @@ wrap = function(obj, ...)
 
 
 ## Evaluate functional data objects
-## *** For basis+ class, it returns an n by p matrix
-##     n is the length of x, p is the number of basis functions
+## *** For basis+ class, it returns an p by T matrix
+##     p is the number of basis functions, T is the length of x
+## *** For fd+ class, it returns an n by T matrix
+##     n is the number of functions, T is the length of x
 if(!isGeneric("feval"))
     setGeneric("feval", function(f, x, ...) standardGeneric("feval"))
 
@@ -68,7 +70,7 @@ setMethod("plot", signature(x = "basis+", y = "missing"),
               y = feval(x, x0)
               if(length(x@dropind))
                   y = y[, -x@dropind]
-              args = c(list(x = x0, y = y), args)
+              args = c(list(x = x0, y = t(y)), args)
               do.call(graphics::matplot, args)
           }
 )

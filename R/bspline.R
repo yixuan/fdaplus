@@ -22,7 +22,7 @@ setMethod("feval", signature(f = "bspline+", x = "numeric"),
                                    f@knots,
                                    rep(f@range[2], ord)),
                                  x, ord, ...)
-              return(mat)
+              return(t(mat))
           }
 )
 
