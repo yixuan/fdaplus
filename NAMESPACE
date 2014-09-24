@@ -10,3 +10,4 @@ importFrom(graphics, plot)
 exportMethods(feval, plot, "%*%", penmat)
 
 exportClasses("basis+", "bspline+")
+exportClasses("fd+")
