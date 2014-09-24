@@ -84,7 +84,7 @@ setMethod("[",
           function(x, i, j, drop) {
               i = as.integer(i)
               if(any(i > x@ncoef))
-                  stop("subscript out of bound")
+                  stop("subscript out of bounds")
               orgind = setdiff(1:x@nbasis, x@dropind)
               newind = orgind[i]
               newdropind = setdiff(1:x@nbasis, newind)

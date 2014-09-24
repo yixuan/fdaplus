@@ -7,10 +7,24 @@ wrap.fd = function(obj, ...)
 ## n is the number of functions, p is the number of basis functions
 setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
          validity = function(object) {
+             if(!nrow(object@coefs))
+                 return("fd+ object must contain at least one function")
              if(ncol(object@coefs) != object@basis@ncoef)
                  return("ncol(coefs) must be equal to the number of basis functions")
              return(TRUE)
          }
+)
+
+
+
+## A generic implementation of "[" for fd+ class
+setMethod("[",
+          signature(x = "fd+", i = "numeric", j = "missing", drop = "ANY"),
+          function(x, i, j, drop) {
+              i = as.integer(i)
+              newcoefs = x@coefs[i, , drop = FALSE]
+              initialize(x, coefs = newcoefs)
+          }
 )
 
 ## A generic implementation of feval() for fd+ class
