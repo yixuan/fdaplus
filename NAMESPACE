@@ -4,6 +4,7 @@ import(methods)
 
 export(wrap)
 S3method(wrap, basisfd)
+S3method(wrap, fd)
 
 importFrom(graphics, plot)
 exportMethods(feval, plot, "%*%", penmat)

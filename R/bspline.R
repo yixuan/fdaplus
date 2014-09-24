@@ -10,6 +10,10 @@ wrap.basisfd = function(obj, ...)
                   knots = as.numeric(obj$params))
 }
 
+wrap.fd = function(obj, ...)
+{
+    new("fd+", coefs = t(obj$coefs), basis = wrap(obj$basis))
+}
 
 setMethod("feval", signature(f = "bspline+", x = "numeric"),
           function(f, x, ...) {
@@ -68,7 +72,7 @@ setMethod("penmat", signature(basis = "bspline+", penalty = "numeric"),
               if(penalty < 0)
                   stop("'penalty' must be >= 0")
               if(penalty >= ord)
-                  return(matrix(0, basis@ncoef, basis@ncoef)
+                  return(matrix(0, basis@ncoef, basis@ncoef))
               allknots = as.numeric(c(rep(basis@range[1], ord),
                                       basis@knots,
                                       rep(basis@range[2], ord)))
