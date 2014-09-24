@@ -1,7 +1,18 @@
 setClass("basis+", slots = c(range = "numeric",
                              nbasis = "numeric",
                              dropind = "numeric",
-                             ncoef = "numeric")
+                             ncoef = "numeric"),
+         validity = function(object) {
+             if(length(object@range) != 2)
+                 return("range must be a vector of length 2")
+             if(object@nbasis <= 0)
+                 return("nbasis must be positive")
+             if(object@ncoef != object@nbasis - length(object@dropind))
+                 return("ncoef must be equal to nbasis-length(dropind)")
+             if(object@ncoef <= 0)
+                 return("number of dropped indices must be smaller than nbasis")
+             return(TRUE)
+         }
 )
 
 setClass("bspline+", contains = "basis+",
@@ -13,12 +24,8 @@ setClass("bspline+", contains = "basis+",
                           degree = 3,
                           knots = numeric(0)),
          validity = function(object) {
-             if(length(object@range) != 2)
-                 return("range must be a vector of length 2")
              if(object@nbasis != object@degree + length(object@knots) + 1)
                  return("nbasis must be equal to degree+length(knots)+1")
-             if(object@ncoef != object@nbasis - length(object@dropind))
-                 return("ncoef must be equal to nbasis-length(dropind)")
              return(TRUE)
          }
 )
@@ -75,6 +82,7 @@ if(!isGeneric("penmat"))
 setMethod("[",
           signature(x = "basis+", i = "numeric", j = "missing", drop = "ANY"),
           function(x, i, j, drop) {
+              i = as.integer(i)
               if(any(i > x@ncoef))
                   stop("subscript out of bound")
               orgind = setdiff(1:x@nbasis, x@dropind)
