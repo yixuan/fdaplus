@@ -28,19 +28,11 @@ setMethod("feval", signature(f = "bspline+", x = "numeric"),
 
 setMethod("plot", signature(x = "bspline+", y = "missing"),
           function(x, y, ...) {
-              x0 = seq(x@range[1], x@range[2], length.out = 101)
               args = list(...)
-              if(!"type" %in% names(args))
-                  args = c(args, type = "l")
-              if(!"xlab" %in% names(args))
-                  args = c(args, xlab = "t")
               if(!"ylab" %in% names(args))
-                  args = c(args, ylab = "B-spline basis")
-              y = feval(x, x0)
-              if(length(x@dropind))
-                  y = y[, -x@dropind]
-              args = c(list(x = x0, y = y), args)
-              do.call(graphics::matplot, args)
+                  args = c(args, ylab = "Bspline basis")
+              args = c(list(x = x), args)
+              do.call(callNextMethod, args)
           }
 )
 
