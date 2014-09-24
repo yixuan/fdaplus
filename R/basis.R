@@ -39,6 +39,10 @@ wrap.basisfd = function(obj, ...)
                   knots = as.numeric(obj$params))
 }
 
+
+## Retrieve a subset of functional data objects
+## "[" is already defined in base package as a generic
+
 ## Evaluate functional data objects
 ## *** For basis+ class, it returns an p by T matrix
 ##     p is the number of basis functions, T is the length of x
@@ -66,6 +70,21 @@ if(!isGeneric("penmat"))
         standardGeneric("penmat"))
 
 
+
+## A generic implementation of "[" for basis+ class
+setMethod("[",
+          signature(x = "basis+", i = "numeric", j = "missing", drop = "ANY"),
+          function(x, i, j, drop) {
+              if(any(i > x@ncoef))
+                  stop("subscript out of bound")
+              orgind = setdiff(1:x@nbasis, x@dropind)
+              newind = orgind[i]
+              newdropind = setdiff(1:x@nbasis, newind)
+              initialize(x, dropind = newdropind,
+                         ncoef = x@nbasis - length(newdropind))
+          }
+)
+
 ## A generic implementation of plot() for basis+ class
 ## Will call feval()
 setMethod("plot", signature(x = "basis+", y = "missing"),
@@ -79,8 +98,6 @@ setMethod("plot", signature(x = "basis+", y = "missing"),
               if(!"ylab" %in% names(args))
                   args = c(args, ylab = "Basis function")
               y = feval(x, x0)
-              if(length(x@dropind))
-                  y = y[, -x@dropind]
               args = c(list(x = x0, y = t(y)), args)
               do.call(graphics::matplot, args)
           }

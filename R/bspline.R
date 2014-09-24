@@ -5,7 +5,10 @@ setMethod("feval", signature(f = "bspline+", x = "numeric"),
                                    f@knots,
                                    rep(f@range[2], ord)),
                                  x, ord, ...)
-              return(t(mat))
+              if(!length(f@dropind))
+                  return(t(mat))
+              else
+                  return(t(mat[, -f@dropind]))
           }
 )
 
@@ -55,7 +58,6 @@ setMethod("penmat", signature(basis = "bspline+", penalty = "numeric"),
               if(!length(basis@dropind))
                   return(res)
               else
-                  return(res[setdiff(1:nrow(res), basis@dropind),
-                             setdiff(1:ncol(res), basis@dropind)])
+                  return(res[-basis@dropind, -basis@dropind])
           }
 )
