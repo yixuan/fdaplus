@@ -1,3 +1,8 @@
+wrap.fd = function(obj, ...)
+{
+    new("fd+", coefs = t(obj$coefs), basis = wrap(obj$basis))
+}
+
 ## coefs is a n by p matrix
 ## n is the number of functions, p is the number of basis functions
 setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),

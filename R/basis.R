@@ -27,6 +27,17 @@ setClass("bspline+", contains = "basis+",
 wrap = function(obj, ...)
     UseMethod("wrap")
 
+wrap.basisfd = function(obj, ...)
+{
+    if(obj$type == "bspline")
+        res = new("bspline+",
+                  range = obj$rangeval,
+                  nbasis = obj$nbasis,
+                  dropind = as.numeric(obj$dropind),
+                  ncoef = obj$nbasis - length(obj$dropind),
+                  degree = obj$nbasis - length(obj$params) - 1,
+                  knots = as.numeric(obj$params))
+}
 
 ## Evaluate functional data objects
 ## *** For basis+ class, it returns an p by T matrix

@@ -1,20 +1,3 @@
-wrap.basisfd = function(obj, ...)
-{
-    if(obj$type == "bspline")
-        res = new("bspline+",
-                  range = obj$rangeval,
-                  nbasis = obj$nbasis,
-                  dropind = as.numeric(obj$dropind),
-                  ncoef = obj$nbasis - length(obj$dropind),
-                  degree = obj$nbasis - length(obj$params) - 1,
-                  knots = as.numeric(obj$params))
-}
-
-wrap.fd = function(obj, ...)
-{
-    new("fd+", coefs = t(obj$coefs), basis = wrap(obj$basis))
-}
-
 setMethod("feval", signature(f = "bspline+", x = "numeric"),
           function(f, x, ...) {
               ord = f@degree + 1
