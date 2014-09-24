@@ -34,3 +34,12 @@ setMethod("plot", signature(x = "fd+", y = "missing"),
               do.call(graphics::matplot, args)
           }
 )
+
+## A generic implementation of "%*%" for fd+ class
+## Will call "%*%" on the basis
+setMethod("%*%", signature(x = "fd+", y = "fd+"),
+          function(x, y) {
+              x@coefs %*% (x@basis %*% y@basis) %*% t(y@coefs)
+          }
+)
+              
