@@ -20,9 +20,11 @@ setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
 if(!isGeneric("mean"))
     setGeneric("mean")
 
-## Standard deviation function
+## Standard deviation and variance function
 if(!isGeneric("sd"))
     setGeneric("sd")
+if(!isGeneric("var"))
+    setGeneric("var")
 
 
 ## A generic implementation of "[" for fd+ class
