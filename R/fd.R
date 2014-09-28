@@ -16,6 +16,14 @@ setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
 )
 
 
+## Mean function
+if(!isGeneric("mean"))
+    setGeneric("mean")
+
+## Standard deviation function
+if(!isGeneric("sd"))
+    setGeneric("sd")
+
 
 ## A generic implementation of "[" for fd+ class
 setMethod("[",
@@ -61,4 +69,34 @@ setMethod("%*%", signature(x = "fd+", y = "fd+"),
               x@coefs %*% (x@basis %*% y@basis) %*% t(y@coefs)
           }
 )
-              
+
+## Arithmetic between fd+ and a scalar
+setMethod("*", signature(e1 = "fd+", e2 = "numeric"),
+          function(e1, e2) {
+              initialize(e1, coefs = e2 * e1@coefs)
+          }
+)
+setMethod("*", signature(e1 = "numeric", e2 = "fd+"),
+          function(e1, e2) {
+              initialize(e2, coefs = e1 * e2@coefs)
+          }
+)
+
+## Calculate mean function
+setMethod("mean", signature(x = "fd+"),
+          function(x, ...) {
+              initialize(x, coefs = t(colMeans(x@coefs)))
+          }
+)
+
+## Calculate sd and var function
+setMethod("sd", signature(x = "fd+", na.rm = "ANY"),
+          function(x, na.rm) {
+              initialize(x, coefs = t(apply(x@coefs, 2, sd)))
+          }
+)
+setMethod("var", signature(x = "fd+", y = "missing"),
+          function(x, na.rm) {
+              initialize(x, coefs = t(apply(x@coefs, 2, var)))
+          }
+)
