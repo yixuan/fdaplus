@@ -25,3 +25,15 @@ wrap.bifd = function(obj, ...)
     new("bifd+", coefs = obj$coefs, sbasis = wrap(obj$sbasis),
         tbasis = wrap(obj$tbasis))
 }
+
+## Arithmetic between bifd+ and a scalar
+setMethod("*", signature(e1 = "bifd+", e2 = "numeric"),
+          function(e1, e2) {
+              initialize(e1, coefs = e2 * e1@coefs)
+          }
+)
+setMethod("*", signature(e1 = "numeric", e2 = "bifd+"),
+          function(e1, e2) {
+              initialize(e2, coefs = e1 * e2@coefs)
+          }
+)
