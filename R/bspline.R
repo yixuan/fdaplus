@@ -1,3 +1,43 @@
+basis_bs = function(range = c(0, 1), nbasis = NULL, order = 4,
+                    breaks = NULL, dropind = NULL)
+{
+    range = as.numeric(range)
+    order = as.integer(order)
+    dropind = unique(as.integer(dropind))
+    
+    if(is.null(nbasis) & is.null(breaks))
+    {
+        nbasis = order
+        knots = numeric(0)
+    } else if(is.null(nbasis) & (!is.null(breaks))) {
+        breaks = as.numeric(breaks)
+        knots = breaks[!breaks %in% range]
+        nbasis = order + length(knots)
+    } else if((!is.null(nbasis)) & is.null(breaks)) {
+        nbasis = as.integer(nbasis)
+        if(nbasis < order)
+            stop("nbasis must be greater than or equal to order")
+        knots = seq(range[0], range[1], length.out = nbasis - order + 2)
+        knots = knots[-c(1, length(knots))]
+    } else {
+        nbasis = as.integer(nbasis)
+        breaks = as.numeric(breaks)
+        knots = breaks[!breaks %in% range]
+        if(nbasis != order + length(knots))
+            stop("nbasis must be equal to order plus the number of inner knots")
+    }
+    
+    new("bspline+",
+        range = range,
+        nbasis = nbasis,
+        dropind = dropind,
+        ncoef = nbasis - length(dropind),
+        degree = order - 1,
+        knots = knots)
+}
+
+
+
 setMethod("feval", signature(f = "bspline+", x = "numeric"),
           function(f, x, ...) {
               ord = f@degree + 1

@@ -12,3 +12,5 @@ exportMethods("[", "*", feval, plot, "%*%", penmat, mean, sd, var)
 
 exportClasses("basis+", "bspline+")
 exportClasses("fd+")
+
+export(basis_bs)
