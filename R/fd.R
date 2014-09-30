@@ -1,8 +1,3 @@
-wrap.fd = function(obj, ...)
-{
-    new("fd+", coefs = t(obj$coefs), basis = wrap(obj$basis))
-}
-
 ## coefs is a n by p matrix
 ## n is the number of functions, p is the number of basis functions
 setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
@@ -16,16 +11,11 @@ setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
 )
 
 
-## Mean function
-if(!isGeneric("mean"))
-    setGeneric("mean")
 
-## Standard deviation and variance function
-if(!isGeneric("sd"))
-    setGeneric("sd")
-if(!isGeneric("var"))
-    setGeneric("var")
-
+wrap.fd = function(obj, ...)
+{
+    new("fd+", coefs = t(obj$coefs), basis = wrap(obj$basis))
+}
 
 ## A generic implementation of "[" for fd+ class
 setMethod("[",
