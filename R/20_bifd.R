@@ -95,7 +95,6 @@ setMethod("plot3d", signature(x = "bifd+"),
           }
 )
 
-
 ## Integral transform (product) of two bivariate functions
 setMethod("%*%", signature(x = "bifd+", y = "bifd+"),
           function(x, y) {
