@@ -87,8 +87,8 @@ setMethod("sd", signature(x = "fd+", na.rm = "ANY"),
               initialize(x, coefs = t(apply(x@coefs, 2, sd)))
           }
 )
-setMethod("var", signature(x = "fd+", y = "missing"),
-          function(x, na.rm) {
+setMethod("var", signature(x = "fd+", y = "missing", na.rm = "ANY", use = "ANY"),
+          function(x, y, na.rm, use) {
               initialize(x, coefs = t(apply(x@coefs, 2, var)))
           }
 )
