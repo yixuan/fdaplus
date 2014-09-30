@@ -17,6 +17,8 @@ wrap = function(obj, ...)
 ##     p is the number of basis functions, T is the length of x
 ## *** For fd+ class, it returns an n by T matrix
 ##     n is the number of functions, T is the length of x
+## *** For bifd+ class, it returns an n1 by n2 matrix
+##     n1 is the length of x, n2 is the length of y
 if(!isGeneric("feval"))
     setGeneric("feval", function(f, x, ...) standardGeneric("feval"))
 
@@ -24,6 +26,8 @@ if(!isGeneric("feval"))
 ## Plot functional data objects
 if(!isGeneric("plot"))
     setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
+if(!isGeneric("plot3d"))
+    setGeneric("plot3d", function(x, ...) standardGeneric("plot3d"))
 
 
 ## Inner product of functional data objects
@@ -35,7 +39,7 @@ if(!isGeneric("%*%"))
 
 
 ## Arithmetic operations
-## "*" and "/" are already defined in base package as generics
+## "+", "-", "*" and "/" are already defined in base package as generics
 
 
 ## Penalty matrix of basis function
