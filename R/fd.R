@@ -1,4 +1,4 @@
-## coefs is a n by p matrix
+## coefs is an n by p matrix
 ## n is the number of functions, p is the number of basis functions
 setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
          validity = function(object) {

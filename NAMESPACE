@@ -6,6 +6,7 @@ import(splines)
 export(wrap)
 S3method(wrap, basisfd)
 S3method(wrap, fd)
+S3method(wrap, bifd)
 S3method(c, "fd+")
 
 importFrom(graphics, plot)
@@ -14,5 +15,6 @@ exportMethods("[", "*", feval, plot, "%*%", penmat, mean, sd, var)
 
 exportClasses("basis+", "bspline+")
 exportClasses("fd+")
+exportClasses("bifd+")
 
-export(basis_bs, fd_new)
+export(basis_bs, fd_new, bifd_new)

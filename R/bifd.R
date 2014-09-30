@@ -1,0 +1,27 @@
+## coefs is an p1 by p2 matrix
+## p1 == sbasis@ncoef
+## p2 == tbasis@ncoef
+setClass("bifd+", slots = c(coefs = "matrix",
+                            sbasis = "basis+",
+                            tbasis = "basis+"),
+         validity = function(object) {
+             if(nrow(object@coefs) != object@sbasis@ncoef)
+                 return("nrow(coefs) must be equal to sbasis@ncoef")
+             if(ncol(object@coefs) != object@tbasis@ncoef)
+                 return("ncol(coefs) must be equal to tbasis@ncoef")
+             return(TRUE)
+         }
+)
+
+
+
+bifd_new = function(coefs, sbasis, tbasis = sbasis)
+{
+    new("bifd+", coefs = coefs, sbasis = sbasis, tbasis = tbasis)
+}
+
+wrap.bifd = function(obj, ...)
+{
+    new("bifd+", coefs = obj$coefs, sbasis = wrap(obj$sbasis),
+        tbasis = wrap(obj$tbasis))
+}
