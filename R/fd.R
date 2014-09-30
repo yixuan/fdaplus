@@ -102,6 +102,11 @@ setMethod("*", signature(e1 = "numeric", e2 = "fd+"),
               initialize(e2, coefs = e1 * e2@coefs)
           }
 )
+setMethod("/", signature(e1 = "fd+", e2 = "numeric"),
+          function(e1, e2) {
+              initialize(e1, coefs = e1@coefs / e2)
+          }
+)
 
 ## Calculate mean function
 setMethod("mean", signature(x = "fd+"),
