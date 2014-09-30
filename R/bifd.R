@@ -94,3 +94,27 @@ setMethod("plot3d", signature(x = "bifd+"),
               rgl::persp3d(x0, y0, z, ...)
           }
 )
+
+
+## Integral transform (product) of two bivariate functions
+setMethod("%*%", signature(x = "bifd+", y = "bifd+"),
+          function(x, y) {
+              newcoef = x@coefs %*% (x@tbasis %*% y@sbasis) %*% y@coefs
+              new("bifd+", coefs = newcoef, sbasis = x@sbasis,
+                  tbasis = y@tbasis)
+          }
+)
+
+## Integral transform (product) on fd+
+setMethod("%*%", signature(x = "bifd+", y = "fd+"),
+          function(x, y) {
+              newcoef = x@coefs %*% (x@tbasis %*% y@basis) %*% t(y@coefs)
+              new("fd+", coefs = t(newcoef), basis = x@sbasis)
+          }
+)
+setMethod("%*%", signature(x = "fd+", y = "bifd+"),
+          function(x, y) {
+              newcoef = x@coefs %*% (x@basis %*% y@sbasis) %*% y@coefs
+              new("fd+", coefs = newcoef, basis = y@tbasis)
+          }
+)
