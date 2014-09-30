@@ -108,6 +108,26 @@ setMethod("/", signature(e1 = "fd+", e2 = "numeric"),
           }
 )
 
+## Arithmetic between fd+ objects
+setMethod("+", signature(e1 = "fd+", e2 = "fd+"),
+          function(e1, e2) {
+              if(!identical(e1@basis, e2@basis))
+                  stop("need to have the same basis functions");
+              if(nrow(e1@coefs) != nrow(e2@coefs))
+                  stop("need to contain the same number of functions")
+              initialize(e1, coefs = e1@coefs + e2@coefs)
+          }
+)
+setMethod("-", signature(e1 = "fd+", e2 = "fd+"),
+          function(e1, e2) {
+              if(!identical(e1@basis, e2@basis))
+                  stop("need to have the same basis functions");
+              if(nrow(e1@coefs) != nrow(e2@coefs))
+                  stop("need to contain the same number of functions")
+              initialize(e1, coefs = e1@coefs - e2@coefs)
+          }
+)
+
 ## Calculate mean function
 setMethod("mean", signature(x = "fd+"),
           function(x, ...) {

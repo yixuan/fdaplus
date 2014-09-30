@@ -42,3 +42,21 @@ setMethod("/", signature(e1 = "bifd+", e2 = "numeric"),
               initialize(e1, coefs = e1@coefs / e2)
           }
 )
+
+## Arithmetic between bifd+ objects
+setMethod("+", signature(e1 = "bifd+", e2 = "bifd+"),
+          function(e1, e2) {
+              if(!identical(e1@sbasis, e2@sbasis) |
+                 !identical(e1@tbasis, e2@tbasis))
+                  stop("need to have the same basis functions");
+              initialize(e1, coefs = e1@coefs + e2@coefs)
+          }
+)
+setMethod("-", signature(e1 = "bifd+", e2 = "bifd+"),
+          function(e1, e2) {
+              if(!identical(e1@sbasis, e2@sbasis) |
+                 !identical(e1@tbasis, e2@tbasis))
+                  stop("need to have the same basis functions");
+              initialize(e1, coefs = e1@coefs - e2@coefs)
+          }
+)
