@@ -39,7 +39,7 @@ if(!isGeneric("%*%"))
 
 
 ## Arithmetic operations
-## "+", "-", "*" and "/" are already defined in base package as generics
+## "+", "-", "*", "/" and "^" are already defined in base package as generics
 
 
 ## Penalty matrix of basis function

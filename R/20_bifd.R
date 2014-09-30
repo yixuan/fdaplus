@@ -117,3 +117,47 @@ setMethod("%*%", signature(x = "fd+", y = "bifd+"),
               new("fd+", coefs = newcoef, basis = y@tbasis)
           }
 )
+
+## Square root of a symmetric matrix
+sqrtm = function(x)
+{
+    if(!isSymmetric(x))
+        stop("x must be a symmetric matrix")
+    .Call("sqrtm", x, PACKAGE = "fdaplus")
+}
+## Inverse of the square root of a symmetric matrix
+sqrtInvm = function(x)
+{
+    if(!isSymmetric(x))
+        stop("x must be a symmetric matrix")
+    .Call("sqrtInvm", x, PACKAGE = "fdaplus")
+}
+## Both of above
+sqrtBothm = function(x)
+{
+    if(!isSymmetric(x))
+        stop("x must be a symmetric matrix")
+    .Call("sqrtBothm", x, PACKAGE = "fdaplus")
+}
+## Power of (symmetric) bivariate function
+power_bifd = function(x, k)
+{
+    if(!isSymmetric(x@coefs) |
+       !identical(x@sbasis, x@tbasis))
+        stop("need a symmetric bivariate function");
+    
+    xmat = x@coefs
+    w = penmat(x@sbasis, 0)
+    wsqrtBoth = sqrtBothm(w)
+    wsqrt = wsqrtBoth$sqrt
+    wsqrtInv = wsqrtBoth$sqrtInv
+    
+    mdecomp = wsqrt %*% xmat %*% wsqrt
+    e = eigen(mdecomp)
+    
+    newcoef = wsqrtInv %*% e$vectors %*% diag(e$values^k) %*% t(e$vectors) %*% wsqrtInv
+    initialize(x, coefs = newcoef)
+}
+setMethod("^", signature(e1 = "bifd+", e2 = "numeric"),
+          function(e1, e2) power_bifd(e1, e2)
+)
