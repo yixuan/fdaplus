@@ -1,10 +1,12 @@
 useDynLib(fdaplus)
 import(Rcpp)
 import(methods)
+import(splines)
 
 export(wrap)
 S3method(wrap, basisfd)
 S3method(wrap, fd)
+S3method(c, "fd+")
 
 importFrom(graphics, plot)
 importFrom(stats, sd, var)

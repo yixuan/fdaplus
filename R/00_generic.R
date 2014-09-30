@@ -8,6 +8,10 @@ wrap = function(obj, ...)
 ## "[" is already defined in base package as a generic
 
 
+## Concatenate a sequence of functional data objects
+## "c" is already a generic S3 method
+
+
 ## Evaluate functional data objects
 ## *** For basis+ class, it returns an p by T matrix
 ##     p is the number of basis functions, T is the length of x

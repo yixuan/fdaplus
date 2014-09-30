@@ -40,6 +40,22 @@ setMethod("[",
           }
 )
 
+## A generic implementation of "c" for fd+ class
+`c.fd+` = function(x, ..., recursive = FALSE)
+{
+    objs = list(x, ...)
+    if(length(objs) < 2)  return(x)
+    for(i in 2:length(objs))
+    {
+        if(!is(objs[[i]], "fd+"))
+            stop("all elements must be fd+ objects")
+        if(!identical(objs[[i]]@basis, objs[[i - 1]]@basis))
+            stop("basis of each fd+ object must be the same")
+    }
+    newcoefs = do.call(rbind, lapply(objs, function(x) x@coefs))
+    initialize(x, coefs = newcoefs)
+}
+
 ## A generic implementation of feval() for fd+ class
 ## Will call feval() on the basis
 setMethod("feval", signature(f = "fd+", x = "numeric"),
@@ -96,12 +112,12 @@ setMethod("mean", signature(x = "fd+"),
 
 ## Calculate sd and var function
 setMethod("sd", signature(x = "fd+", na.rm = "ANY"),
-          function(x, na.rm) {
+          function(x, na.rm = FALSE) {
               initialize(x, coefs = t(apply(x@coefs, 2, sd)))
           }
 )
 setMethod("var", signature(x = "fd+", y = "missing", na.rm = "ANY", use = "ANY"),
-          function(x, y, na.rm, use) {
+          function(x, y = NULL, na.rm = FALSE, use) {
               initialize(x, coefs = t(apply(x@coefs, 2, var)))
           }
 )
