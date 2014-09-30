@@ -12,6 +12,19 @@ setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
 
 
 
+fd_new = function(coefs, basis)
+{
+    if(is.matrix(coefs))
+    {
+        return(new("fd+", coefs = coefs, basis = basis))
+    } else if(is.numeric(coefs)) {
+        coefs = as.numeric(coefs)
+        return(new("fd+", coefs = t(coefs), basis = basis))
+    } else {
+        stop("coefs must a matrix or a vector")
+    }
+}
+
 wrap.fd = function(obj, ...)
 {
     new("fd+", coefs = t(obj$coefs), basis = wrap(obj$basis))
