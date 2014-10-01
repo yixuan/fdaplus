@@ -60,3 +60,7 @@ if(!isGeneric("sd"))
     setGeneric("sd")
 if(!isGeneric("var"))
     setGeneric("var")
+
+## Eigen decomposition of a (symmetric) bivariate function
+if(!isGeneric("eig"))
+    setGeneric("eig", function(x, k, ...) standardGeneric("eig"))

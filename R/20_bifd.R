@@ -144,7 +144,7 @@ power_bifd = function(x, k)
 {
     if(!isSymmetric(x@coefs) |
        !identical(x@sbasis, x@tbasis))
-        stop("need a symmetric bivariate function");
+        stop("need a symmetric bivariate function")
     
     xmat = x@coefs
     w = penmat(x@sbasis, 0)
