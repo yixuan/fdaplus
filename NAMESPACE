@@ -10,9 +10,9 @@ S3method(wrap, bifd)
 S3method(c, "fd+")
 
 importFrom(graphics, plot)
-importFrom(stats, sd, var)
+importFrom(stats, sd, var, cov)
 exportMethods("[", "$", "+", "-", "*", "/", "^", feval, plot, plot3d,
-              "%*%", penmat, mean, sd, var, eig)
+              "%*%", penmat, mean, sd, var, cov, eig)
 
 exportClasses("basis+", "bspline+")
 exportClasses("fd+")

@@ -146,3 +146,14 @@ setMethod("var", signature(x = "fd+", y = "missing", na.rm = "ANY", use = "ANY")
               initialize(x, coefs = t(apply(x@coefs, 2, var)))
           }
 )
+
+## Calculate bivariate covariance function
+setMethod("cov", signature(x = "fd+", y = "missing",
+                           use = "ANY", method = "ANY"),
+          function(x, y, use, method) {
+              if(nrow(x@coefs) <= ncol(x@coefs))
+                  stop("number of functions should be greater than the number of basis functions")
+              coefs = var(x@coefs)
+              new("bifd+", coefs = coefs, sbasis = x@basis, tbasis = x@basis)
+          }
+)

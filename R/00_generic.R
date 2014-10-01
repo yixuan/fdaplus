@@ -65,6 +65,10 @@ if(!isGeneric("sd"))
 if(!isGeneric("var"))
     setGeneric("var")
 
+## Covariance function
+if(!isGeneric("cov"))
+    setGeneric("cov")
+
 ## Eigen decomposition of a (symmetric) bivariate function
 if(!isGeneric("eig"))
     setGeneric("eig", function(x, k, ...) standardGeneric("eig"))
