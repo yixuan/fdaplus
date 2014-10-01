@@ -136,16 +136,7 @@ setMethod("mean", signature(x = "fd+"),
 )
 
 ## Calculate sd and var function
-setMethod("sd", signature(x = "fd+", na.rm = "ANY"),
-          function(x, na.rm = FALSE) {
-              initialize(x, coefs = t(apply(x@coefs, 2, sd)))
-          }
-)
-setMethod("var", signature(x = "fd+", y = "missing", na.rm = "ANY", use = "ANY"),
-          function(x, y = NULL, na.rm = FALSE, use) {
-              initialize(x, coefs = t(apply(x@coefs, 2, var)))
-          }
-)
+## Seems difficult to implement
 
 ## Calculate bivariate covariance function
 setMethod("cov", signature(x = "fd+", y = "missing",
