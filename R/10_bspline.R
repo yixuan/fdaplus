@@ -17,7 +17,7 @@ basis_bs = function(range = c(0, 1), nbasis = NULL, order = 4,
         nbasis = as.integer(nbasis)
         if(nbasis < order)
             stop("nbasis must be greater than or equal to order")
-        knots = seq(range[0], range[1], length.out = nbasis - order + 2)
+        knots = seq(range[1], range[2], length.out = nbasis - order + 2)
         knots = knots[-c(1, length(knots))]
     } else {
         nbasis = as.integer(nbasis)
