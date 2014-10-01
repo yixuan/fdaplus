@@ -8,6 +8,10 @@ wrap = function(obj, ...)
 ## "[" is already defined in base package as a generic
 
 
+## Retrieve a field
+## "$" is already defined in base package as a generic
+
+
 ## Concatenate a sequence of functional data objects
 ## "c" is already a generic S3 method
 

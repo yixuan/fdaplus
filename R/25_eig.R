@@ -40,3 +40,12 @@ eig_bifd = function(x, k, ...)
 setMethod("eig", signature(x = "bifd+", k = "numeric"), eig_bifd)
 setMethod("eig", signature(x = "bifd+", k = "missing"),
           function(x, k, ...) eig_bifd(x, nrow(x@coefs)))
+
+setMethod("$", signature(x = "eig+"),
+          function(x, name) {
+              if(name == "harmonics")
+                  return(x@funs)
+              else
+                  return(slot(x, name))
+          }
+)
