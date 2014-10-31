@@ -1,7 +1,7 @@
 useDynLib(fdaplus)
 import(Rcpp)
 import(methods)
-import(splines)
+# import(splines)
 
 export(wrap)
 S3method(wrap, basisfd)
@@ -19,4 +19,4 @@ exportClasses("fd+")
 exportClasses("bifd+")
 exportClasses("eig+")
 
-export(basis_bs, fd_new, bifd_new)
+export(basis_bs, fd_new, bifd_new, smooth_data)
