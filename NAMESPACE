@@ -19,4 +19,4 @@ exportClasses("fd+")
 exportClasses("bifd+")
 exportClasses("eig+")
 
-export(basis_bs, fd_new, bifd_new, smooth_data)
+export(basis_bs, basis_fourier, fd_new, bifd_new, smooth_data)

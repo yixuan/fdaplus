@@ -30,11 +30,26 @@ setClass("bspline+", contains = "basis+",
          }
 )
 
+setClass("fourier+", contains = "basis+",
+         slots = c(period = "numeric"),
+         prototype = list(range = c(0, 1),
+                          nbasis = 3,
+                          dropind = numeric(0),
+                          ncoef = 3,
+                          period = 1),
+         validity = function(object) {
+             if(object@period <= 0)
+                 return("period must be positive")
+             return(TRUE)
+         }
+)
+
 
 
 wrap.basisfd = function(obj, ...)
 {
     if(obj$type == "bspline")
+    {
         res = new("bspline+",
                   range = obj$rangeval,
                   nbasis = obj$nbasis,
@@ -42,6 +57,15 @@ wrap.basisfd = function(obj, ...)
                   ncoef = obj$nbasis - length(obj$dropind),
                   degree = obj$nbasis - length(obj$params) - 1,
                   knots = as.numeric(obj$params))
+    } else if(obj$type == "fourier") {
+        res = new("fourier+",
+                  range = obj$rangeval,
+                  nbasis = obj$nbasis,
+                  dropind = as.numeric(obj$dropind),
+                  ncoef = obj$nbasis - length(obj$dropind),
+                  period = obj$params)
+    } else stop("type not supported yet")
+    res
 }
 
 ## A generic implementation of "[" for basis+ class
