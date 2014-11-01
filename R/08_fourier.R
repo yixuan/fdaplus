@@ -33,11 +33,9 @@ basis_fourier = function(range = c(0, 1), nbasis = 3, period = diff(range),
 # B_{2k+1}(x) = scale * cos(omega * k * x)
 setMethod("feval", signature(f = "fourier+", x = "numeric"),
           function(f, x, ...) {
-              scale = sqrt(2 / f@period)
-              omega = 2 * pi / f@period
               ind = as.integer(setdiff(seq(f@ncoef), f@dropind))
               x = x - f@range[1]
-              .Call("fourier_feval", x, ind, omega, scale)
+              .Call("fourier_feval", x, ind, f@period)
           }
 )
 

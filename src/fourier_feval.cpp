@@ -13,14 +13,15 @@ B5(x) = scale * cos(omega * 2 * x)
 B_{2k}(x) = scale * sin(omega * k * x)
 B_{2k+1}(x) = scale * cos(omega * k * x)
 */
-RcppExport SEXP fourier_feval(SEXP x, SEXP ind, SEXP omega, SEXP scale)
+RcppExport SEXP fourier_feval(SEXP x, SEXP ind, SEXP period)
 {
 BEGIN_RCPP
 
     NumericVector xval(x);
     IntegerVector index(ind);
-    double w = as<double>(omega);
-    double cons = as<double>(scale);
+    double periodT = as<double>(period);
+    double w = M_2PI / periodT;
+    double scale = sqrt(2.0 / periodT);
     
     int p = index.length();
     int T = xval.length();
@@ -32,14 +33,14 @@ BEGIN_RCPP
         k = index[i] / 2;
         if(k == 0)
         {
-            res(i, _) = NumericVector(T, cons / sqrt(2.0));
+            res(i, _) = NumericVector(T, scale / sqrt(2.0));
             continue;
         }
         if(index[i] % 2 == 0)
         {
-            res(i, _) = cons * sin((w * k) * xval);
+            res(i, _) = scale * sin((w * k) * xval);
         } else {
-            res(i, _) = cons * cos((w * k) * xval);
+            res(i, _) = scale * cos((w * k) * xval);
         }
     }
     
