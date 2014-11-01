@@ -23,8 +23,9 @@ private:
 public:
     BsplinePenmat(int nbasis_, SEXP knots_, int order_, int deriv_) :
         VectorIntegrandBatch(nbasis_ * (nbasis_ + 1) / 2),
+        nbasis(nbasis_),
         fdim(nbasis_ * (nbasis_ + 1) / 2),
-        nbasis(nbasis_), knots(knots_),
+        knots(knots_),
         order(order_), Sorder(1L, order_),
         deriv(deriv_), Sderiv(1L, deriv_)
     {}
