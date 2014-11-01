@@ -40,3 +40,14 @@ setMethod("feval", signature(f = "fourier+", x = "numeric"),
               .Call("fourier_feval", x, ind, omega, scale)
           }
 )
+
+setMethod("plot", signature(x = "fourier+", y = "missing"),
+          function(x, y, ...) {
+              args = list(...)
+              if(!"ylab" %in% names(args))
+                  args = c(args, ylab = "Fourier basis")
+              args = c(list(x = x), args)
+              do.call(callNextMethod, args)
+          }
+)
+
