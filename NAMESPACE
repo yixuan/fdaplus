@@ -14,7 +14,7 @@ importFrom(stats, sd, var, cov)
 exportMethods("[", "$", "+", "-", "*", "/", "^", feval, plot, plot3d,
               "%*%", penmat, mean, sd, var, cov, eig)
 
-exportClasses("basis+", "bspline+")
+exportClasses("basis+", "bspline+", "fourier+")
 exportClasses("fd+")
 exportClasses("bifd+")
 exportClasses("eig+")
