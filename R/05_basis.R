@@ -84,7 +84,7 @@ setMethod("[",
 )
 
 ## A generic implementation of plot() for basis+ class
-## Will call feval()
+## Calls feval()
 setMethod("plot", signature(x = "basis+", y = "missing"),
           function(x, y, ...) {
               x0 = seq(x@range[1], x@range[2], length.out = 101)
@@ -98,5 +98,18 @@ setMethod("plot", signature(x = "basis+", y = "missing"),
               y = feval(x, x0)
               args = c(list(x = x0, y = t(y)), args)
               do.call(graphics::matplot, args)
+          }
+)
+
+## A generic implementation of inner product for basis+ class
+## Calls feval()
+setMethod("%*%", signature(x = "basis+", y = "basis+"),
+          function(x, y) {
+              if(!isTRUE(all.equal(x@range, y@range)))
+                  stop("range of x and y must be the same")
+              
+              res = .Call("basis_inprod", x, y)
+              dim(res) = c(x@ncoef, y@ncoef)
+              res
           }
 )
