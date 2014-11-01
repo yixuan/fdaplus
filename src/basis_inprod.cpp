@@ -31,7 +31,6 @@ public:
             MapMat outer(&result(0, j), matX.rows(), matY.rows());
             outer = matX.col(j) * matY.col(j).transpose();
         }
-        nevals += npoints;
     }
 };
 

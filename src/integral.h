@@ -10,6 +10,9 @@ protected:
     int nfuns;
     int nevals;
     MapVec result;
+    
+    // given x, this function should assign f_i(x) to result[i]
+    virtual void eval(const double x) = 0;
 public:
     VectorIntegrand(int nfuns_) :
         nfuns(nfuns_), nevals(0), result(NULL, nfuns) {}
@@ -17,9 +20,11 @@ public:
     {
         new (&result) MapVec(target_, nfuns);
     }
-    // given x, this function should assign f_i(x) to result[i]
-    // and nevals++
-    virtual void eval(const double *x) = 0;
+    void evalAndCount(const double *x)
+    {
+        eval(*x);
+        nevals++;
+    }
     int funDim() { return nfuns; }
     int funEvals() { return nevals; }
 };
@@ -34,6 +39,9 @@ protected:
     int npoints;
     int nevals;
     MapMat result;
+    
+    // given x, this function should assign f_i(x[j]) to result[i, j]
+    virtual void eval(const double *x) = 0;
 public:
     VectorIntegrandBatch(int nfuns_) :
         nfuns(nfuns_), npoints(1), nevals(0),
@@ -43,9 +51,11 @@ public:
         npoints = npoints_;
         new (&result) MapMat(target_, nfuns, npoints);
     }
-    // given x, this function should assign f_i(x[j]) to result[i, j]
-    // and nevals++
-    virtual void eval(const double *x) = 0;
+    void evalAndCount(const double *x)
+    {
+        eval(x);
+        nevals += npoints;
+    }
     int funDim() { return nfuns; }
     int funEvals() { return nevals; }
 };
@@ -56,7 +66,7 @@ inline int vintegrand(unsigned ndim, const double *x, void *fdata,
 {
     VectorIntegrand *integr = (VectorIntegrand *) fdata;
     integr->setOutput(fval);
-    integr->eval(x);
+    integr->evalAndCount(x);
     return 0;
 }
 
@@ -100,7 +110,7 @@ inline int vintegrand_batch(unsigned ndim, size_t npts, const double *x,
 {
     VectorIntegrandBatch *integr = (VectorIntegrandBatch *) fdata;
     integr->setOutput(npts, fval);
-    integr->eval(x);
+    integr->evalAndCount(x);
     return 0;
 }
 

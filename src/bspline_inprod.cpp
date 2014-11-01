@@ -101,7 +101,6 @@ public:
                 }
             }
         }
-        nevals += npoints;
     }
 };
 
