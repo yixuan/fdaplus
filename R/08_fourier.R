@@ -33,7 +33,7 @@ basis_fourier = function(range = c(0, 1), nbasis = 3, period = diff(range),
 # B_{2k+1}(x) = scale * cos(omega * k * x)
 setMethod("feval", signature(f = "fourier+", x = "numeric"),
           function(f, x, ...) {
-              ind = as.integer(setdiff(seq(f@ncoef), f@dropind))
+              ind = as.integer(setdiff(seq(f@nbasis), f@dropind))
               x = x - f@range[1]
               .Call("fourier_feval", x, ind, f@period)
           }
@@ -54,8 +54,23 @@ setMethod("%*%", signature(x = "fourier+", y = "fourier+"),
               if(!isTRUE(all.equal(x@range, y@range)))
                   stop("range of x and y must be the same")
               
-              indx = as.integer(setdiff(seq(x@ncoef), x@dropind))
-              indy = as.integer(setdiff(seq(y@ncoef), y@dropind))
-              .Call("fourier_inprod", x@range, indx, indy, x@period, y@period)
+              indx = as.integer(setdiff(seq(x@nbasis), x@dropind))
+              indy = as.integer(setdiff(seq(y@nbasis), y@dropind))
+              .Call("fourier_inprod", x@range - x@range[1],
+                    indx, indy, x@period, y@period)
+          }
+)
+
+setMethod("penmat", signature(basis = "fourier+", penalty = "numeric"),
+          function(basis, penalty, ...) {
+              penalty = as.integer(penalty)
+              if(penalty < 0)
+                  stop("'penalty' must be >= 0")
+              if(penalty == 0)
+                  return(basis %*% basis)
+              
+              ind = as.integer(setdiff(seq(basis@nbasis), basis@dropind))
+              .Call("fourier_penmat", basis@range - basis@range[1],
+                    ind, basis@period, penalty)
           }
 )
