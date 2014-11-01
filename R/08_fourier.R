@@ -49,3 +49,13 @@ setMethod("plot", signature(x = "fourier+", y = "missing"),
           }
 )
 
+setMethod("%*%", signature(x = "fourier+", y = "fourier+"),
+          function(x, y) {
+              if(!isTRUE(all.equal(x@range, y@range)))
+                  stop("range of x and y must be the same")
+              
+              indx = as.integer(setdiff(seq(x@ncoef), x@dropind))
+              indy = as.integer(setdiff(seq(y@ncoef), y@dropind))
+              .Call("fourier_inprod", x@range, indx, indy, x@period, y@period)
+          }
+)
