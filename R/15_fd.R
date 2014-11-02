@@ -91,6 +91,18 @@ setMethod("%*%", signature(x = "fd+", y = "fd+"),
           }
 )
 
+setMethod("%*%", signature(x = "fd+", y = "basis+"),
+          function(x, y) {
+              x@coefs %*% (x@basis %*% y@basis)
+          }
+)
+
+setMethod("%*%", signature(x = "basis+", y = "basis+"),
+          function(x, y) {
+              (x@basis %*% y@basis) %*% t(y@coefs)
+          }
+)
+
 ## Arithmetic between fd+ and a scalar
 setMethod("*", signature(e1 = "fd+", e2 = "numeric"),
           function(e1, e2) {
