@@ -2,6 +2,7 @@ useDynLib(fdaplus)
 import(Rcpp)
 import(methods)
 # import(splines)
+importFrom(splines, splineDesign)
 
 export(wrap)
 S3method(wrap, basisfd)

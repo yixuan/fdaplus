@@ -93,13 +93,13 @@ setMethod("%*%", signature(x = "fd+", y = "fd+"),
 
 setMethod("%*%", signature(x = "fd+", y = "basis+"),
           function(x, y) {
-              x@coefs %*% (x@basis %*% y@basis)
+              x@coefs %*% (x@basis %*% y)
           }
 )
 
-setMethod("%*%", signature(x = "basis+", y = "basis+"),
+setMethod("%*%", signature(x = "basis+", y = "fd+"),
           function(x, y) {
-              (x@basis %*% y@basis) %*% t(y@coefs)
+              (x %*% y@basis) %*% t(y@coefs)
           }
 )
 
