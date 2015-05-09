@@ -1,3 +1,21 @@
+#' Basis Functions for Functional Data
+#'
+#' The "\code{basis+}" class is the base class for all basis function objects,
+#' including \code{\link[=bspline+-class]{bspline+}} and
+#' \code{\link[=fourier+-class]{fourier+}}.
+#'
+#' @slot range A length-two numeric vector to define the interval on which
+#'             basis functions can be evaluated.
+#' @slot nbasis The total number of basis functions, including the ones that need
+#'              to be dropped.
+#' @slot dropind Indices of basis functions that need to be dropped.
+#' @slot ncoef The actual number of basis functions to represent functional data,
+#'             satisfying the condition \code{ncoef == nbasis - length(dropind)}.
+#'
+#' @seealso \code{\link[=bspline+-class]{bspline+}},
+#' \code{\link[=fourier+-class]{fourier+}}.
+#'
+#' @export
 setClass("basis+", slots = c(range = "numeric",
                              nbasis = "numeric",
                              dropind = "numeric",
@@ -15,6 +33,26 @@ setClass("basis+", slots = c(range = "numeric",
          }
 )
 
+#' B-spline Basis Functions
+#'
+#' The "\code{bspline+}" class represents B-spline basis functions.
+#'
+#' @section Extends:
+#' Class \code{\link[=basis+-class]{basis+}}
+#'
+#' @slot range A length-two numeric vector to define the interval on which
+#'             basis functions can be evaluated. Default is \code{c(0, 1)}.
+#' @slot nbasis The total number of basis functions, including the ones that need
+#'              to be dropped. Default is 4.
+#' @slot dropind Indices of basis functions that need to be dropped. Default is
+#'               \code{numeric(0)} (no basis will be dropped).
+#' @slot ncoef The actual number of basis functions to represent functional data,
+#'             satisfying the condition \code{ncoef == nbasis - length(dropind)}.
+#' @slot degree Degree of the B-splines. Default is 3, standing for cubic splines.
+#' @slot knots A numeric vector giving the inner knots. Must satisfy
+#'             \code{nbasis == degree + length(knots) + 1}.
+#'
+#' @export
 setClass("bspline+", contains = "basis+",
          slots = c(degree = "numeric", knots = "numeric"),
          prototype = list(range = c(0, 1),
@@ -30,6 +68,25 @@ setClass("bspline+", contains = "basis+",
          }
 )
 
+#' Fourier Basis Functions
+#'
+#' The "\code{fourier+}" class represents Fourier basis functions.
+#'
+#' @section Extends:
+#' Class \code{\link[=basis+-class]{basis+}}
+#'
+#' @slot range A length-two numeric vector to define the interval on which
+#'             basis functions can be evaluated. Default is \code{c(0, 1)}.
+#' @slot nbasis The total number of basis functions, including the ones that need
+#'              to be dropped. Default is 3.
+#' @slot dropind Indices of basis functions that need to be dropped. Default is
+#'               \code{numeric(0)} (no basis will be dropped).
+#' @slot ncoef The actual number of basis functions to represent functional data,
+#'             satisfying the condition \code{ncoef == nbasis - length(dropind)}.
+#' @slot period The length of the cycle that fourier basis functions repeat
+#'              themselves. Default is 1.
+#'
+#' @export
 setClass("fourier+", contains = "basis+",
          slots = c(period = "numeric"),
          prototype = list(range = c(0, 1),
@@ -107,7 +164,7 @@ setMethod("%*%", signature(x = "basis+", y = "basis+"),
           function(x, y) {
               if(!isTRUE(all.equal(x@range, y@range)))
                   stop("range of x and y must be the same")
-              
+
               res = .Call("basis_inprod", x, y)
               dim(res) = c(x@ncoef, y@ncoef)
               res
