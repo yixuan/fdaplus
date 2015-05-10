@@ -1,5 +1,19 @@
-## coefs is an n by p matrix
-## n is the number of functions, p is the number of basis functions
+#' Functional Data Object
+#'
+#' A functional data object consists of one or more function curves, each
+#' expressed as a linear combination of a system of basis functions.
+#' Functions in one object are assumed to share the same basis, so an
+#' \code{fd+} object is composed of one \code{\link[=basis+-class]{basis+}}
+#' object and the corresponding coefficients.
+#'
+#' @slot basis Basis object of class \code{\link[=basis+-class]{basis+}}.
+#' @slot coefs A matrix of dimension \code{n} by \code{p} where \code{n}
+#'             is the number of functions in this object, and \code{p}
+#'             is the number of basis functions in \code{basis}.
+#'             The \code{i}-th row of \code{coefs} contains the coefficients
+#'             for the \code{i}-th function in the object.
+#'
+#' @export
 setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
          validity = function(object) {
              if(!nrow(object@coefs))
