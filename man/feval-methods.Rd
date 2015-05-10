@@ -92,4 +92,7 @@ equals the value of the \code{i}-th function evaluated on \code{x[j]}.
 \code{length(x)} rows and \code{length(y)} columns, with \code{R[i, j]}
 equal to the value of \code{f(x[i], x[j])}.
 }
+\author{
+Yixuan Qiu <\url{http://statr.me/}>
+}
 

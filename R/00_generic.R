@@ -55,6 +55,8 @@ wrap = function(obj, ...)
 #' @param \dots Additional parameters, currently unused.
 #' @return See \strong{Method (...)} sections for the actual implementations of
 #'         this generic function.
+#' @export
+#' @author Yixuan Qiu <\url{http://statr.me/}>
 NULL
 
 if(!isGeneric("feval"))
