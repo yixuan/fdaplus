@@ -1,3 +1,23 @@
+#' Creating Fourier Basis Functions
+#'
+#' This function constructs a \code{\link[=fourier+-class]{fourier+}} object
+#' that represents a series of Fourier basis functions.
+#'
+#' @param range A length-two numeric vector to define the interval on which
+#'              basis functions can be evaluated. Default is \code{c(0, 1)}.
+#' @param nbasis The total number of basis functions, including the ones that need
+#'               to be dropped. \code{nbasis} should be an odd number. If an
+#'               even number is specified, it will be increased by 1 automatically.
+#'               Default is 3.
+#' @param period The length of the cycle that Fourier basis functions repeat
+#'               themselves. Default is the width of \code{range}.
+#' @param dropind Indices of basis functions that need to be dropped. Default is
+#'                \code{NULL}, meaning no basis will be dropped.
+#'
+#' @return A \code{\link[=fourier+-class]{fourier+}} object representing the
+#'         basis functions.
+#' @author Yixuan Qiu <\url{http://statr.me/}>
+#' @export
 basis_fourier = function(range = c(0, 1), nbasis = 3, period = diff(range),
                          dropind = NULL)
 {

@@ -83,7 +83,7 @@ setClass("bspline+", contains = "basis+",
 #'               \code{numeric(0)} (no basis will be dropped).
 #' @slot ncoef The actual number of basis functions to represent functional data,
 #'             satisfying the condition \code{ncoef == nbasis - length(dropind)}.
-#' @slot period The length of the cycle that fourier basis functions repeat
+#' @slot period The length of the cycle that Fourier basis functions repeat
 #'              themselves. Default is 1.
 #'
 #' @export

@@ -22,7 +22,7 @@ to be dropped. Default is 3.}
 \item{\code{ncoef}}{The actual number of basis functions to represent functional data,
 satisfying the condition \code{ncoef == nbasis - length(dropind)}.}
 
-\item{\code{period}}{The length of the cycle that fourier basis functions repeat
+\item{\code{period}}{The length of the cycle that Fourier basis functions repeat
              themselves. Default is 1.}
 }}
 \section{Extends}{
