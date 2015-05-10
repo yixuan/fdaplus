@@ -25,6 +25,7 @@ fd_new = function(coefs, basis)
     }
 }
 
+#' @describeIn wrap Converting "fd" objects
 wrap.fd = function(obj, ...)
 {
     new("fd+", coefs = t(obj$coefs), basis = wrap(obj$basis))

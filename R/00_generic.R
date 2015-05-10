@@ -1,4 +1,22 @@
-## Wrap objects in fda package to the new class
+#' Converting Objects in the 'fda' Package into their Counterparts in 'fdaplus'
+#'
+#' This function can convert objects in the \pkg{fda} package
+#' into S4 objects that have been redesigned in the \pkg{fdaplus} package.
+#'
+#' @param obj Object to be converted, whose type should be "\code{basisfd}",
+#'            "\code{fd}" or "\code{bifd}".
+#' @param \dots Currently unused.
+#' @return Below gives the conversion result:
+#' \itemize{
+#'   \item \code{basisfd} objects will be converted into
+#'         \code{\link[=basis+-class]{basis+}} objects
+#'   \item \code{fd} objects will be converted into
+#'         \code{\link[=fd+-class]{fd+}} objects
+#'   \item \code{bifd} objects will be converted into
+#'         \code{\link[=bifd+-class]{bifd+}} objects
+#' }
+#' @author Yixuan Qiu <\url{http://statr.me/}>
+#' @export
 wrap = function(obj, ...)
     UseMethod("wrap")
 
@@ -31,13 +49,7 @@ wrap = function(obj, ...)
 #' @return See section \strong{Methods} for the actual implementations of
 #'         this generic function.
 NULL
-## Evaluate functional data objects
-## *** For basis+ class, it returns an p by T matrix
-##     p is the number of basis functions, T is the length of x
-## *** For fd+ class, it returns an n by T matrix
-##     n is the number of functions, T is the length of x
-## *** For bifd+ class, it returns an n1 by n2 matrix
-##     n1 is the length of x, n2 is the length of y
+
 if(!isGeneric("feval"))
     setGeneric("feval", function(f, x, ...) standardGeneric("feval"))
 

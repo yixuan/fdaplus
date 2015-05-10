@@ -103,6 +103,7 @@ setClass("fourier+", contains = "basis+",
 
 
 
+#' @describeIn wrap Converting "basisfd" objects
 wrap.basisfd = function(obj, ...)
 {
     if(obj$type == "bspline")

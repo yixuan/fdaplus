@@ -20,6 +20,7 @@ bifd_new = function(coefs, sbasis, tbasis = sbasis)
     new("bifd+", coefs = coefs, sbasis = sbasis, tbasis = tbasis)
 }
 
+#' @describeIn wrap Converting "bifd" objects
 wrap.bifd = function(obj, ...)
 {
     new("bifd+", coefs = obj$coefs, sbasis = wrap(obj$sbasis),
