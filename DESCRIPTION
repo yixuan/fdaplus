@@ -1,6 +1,6 @@
 Package: fdaplus
 Type: Package
-Title: Enhancement of the fda package for functional data analysis
+Title: Enhancement of the 'fda' package for functional data analysis
 Version: 0.1
 Date: 2014-09-18
 Authors@R: c(person(given = "Yixuan", family = "Qiu",
@@ -16,7 +16,9 @@ Authors@R: c(person(given = "Yixuan", family = "Qiu",
                     role = c("ctb", "cph"),
                     comment = "splines.c file"))
 Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
-Description: Enhancement of the fda package
+Description: A redesign of the 'fda' package that uses S4 classes to represent
+    functional data objects, and rewrites most of the models and algorithms
+    using efficient C++ code.
 License: GPL (>= 2)
 Copyright: see file COPYRIGHTS
 Depends: methods
