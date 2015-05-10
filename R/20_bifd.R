@@ -67,7 +67,7 @@ setMethod("-", signature(e1 = "bifd+", e2 = "bifd+"),
 #' \code{x} and \code{y} are numeric vectors.
 #' \code{feval(f, x, y)} returns a matrix \code{R} of
 #' \code{length(x)} rows and \code{length(y)} columns, with \code{R[i, j]}
-#' equal to the value of \code{f(x[i], [j])}.
+#' equal to the value of \code{f(x[i], x[j])}.
 setMethod("feval", signature(f = "bifd+", x = "numeric"),
           function(f, x, y, ...) {
               y = as.numeric(y)
