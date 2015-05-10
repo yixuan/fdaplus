@@ -5,13 +5,13 @@ basis_fourier = function(range = c(0, 1), nbasis = 3, period = diff(range),
     nbasis = as.integer(nbasis)
     period = as.numeric(period)
     dropind = unique(as.integer(dropind))
-    
+
     if(nbasis %% 2 == 0)
     {
         warning("nbasis should be an odd number; will be increased by 1")
         nbasis = nbasis + 1
     }
-    
+
     new("fourier+",
         range = range,
         nbasis = nbasis,
@@ -31,6 +31,11 @@ basis_fourier = function(range = c(0, 1), nbasis = 3, period = diff(range),
 # ...
 # B_{2k}(x) = scale * sin(omega * k * x)
 # B_{2k+1}(x) = scale * cos(omega * k * x)
+#' @describeIn feval Evaluating a Fourier Basis Function Object
+#'
+#' \code{x} is a numeric vector. \code{feval(f, x)} returns a matrix \code{R} of
+#' \code{f@@ncoef} rows and \code{length(x)} columns, with \code{R[i, j]}
+#' representing the value of the \code{i}-th basis function evaluated on \code{x[j]}.
 setMethod("feval", signature(f = "fourier+", x = "numeric"),
           function(f, x, ...) {
               ind = as.integer(setdiff(seq(f@nbasis), f@dropind))
@@ -53,7 +58,7 @@ setMethod("%*%", signature(x = "fourier+", y = "fourier+"),
           function(x, y) {
               if(!isTRUE(all.equal(x@range, y@range)))
                   stop("range of x and y must be the same")
-              
+
               indx = as.integer(setdiff(seq(x@nbasis), x@dropind))
               indy = as.integer(setdiff(seq(y@nbasis), y@dropind))
               .Call("fourier_inprod", x@range - x@range[1],
@@ -68,7 +73,7 @@ setMethod("penmat", signature(basis = "fourier+", penalty = "numeric"),
                   stop("'penalty' must be >= 0")
               if(penalty == 0)
                   return(basis %*% basis)
-              
+
               ind = as.integer(setdiff(seq(basis@nbasis), basis@dropind))
               .Call("fourier_penmat", basis@range - basis@range[1],
                     ind, basis@period, penalty)

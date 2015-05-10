@@ -75,6 +75,11 @@ basis_bs = function(range = c(0, 1), nbasis = NULL, order = 4,
 
 
 
+#' @describeIn feval Evaluating a B-spline Basis Function Object
+#'
+#' \code{x} is a numeric vector. \code{feval(f, x)} returns a matrix \code{R} of
+#' \code{f@@ncoef} rows and \code{length(x)} columns, with \code{R[i, j]}
+#' representing the value of the \code{i}-th basis function evaluated on \code{x[j]}.
 setMethod("feval", signature(f = "bspline+", x = "numeric"),
           function(f, x, ...) {
               ord = f@degree + 1

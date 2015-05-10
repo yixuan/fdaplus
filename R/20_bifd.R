@@ -61,10 +61,12 @@ setMethod("-", signature(e1 = "bifd+", e2 = "bifd+"),
           }
 )
 
-## A generic implementation of feval() for bifd+ class
-## Will call feval() on the basis
-## Return a matrix K(i, j) with
-##          K(i, j) = f(x[i], y[j])
+#' @describeIn feval Evaluating a Bivariate Functional Data Object
+#'
+#' \code{x} and \code{y} are numeric vectors.
+#' \code{feval(f, x, y)} returns a matrix \code{R} of
+#' \code{length(x)} rows and \code{length(y)} columns, with \code{R[i, j]}
+#' equal to the value of \code{f(x[i], [j])}.
 setMethod("feval", signature(f = "bifd+", x = "numeric"),
           function(f, x, y, ...) {
               y = as.numeric(y)
@@ -145,16 +147,16 @@ power_bifd = function(x, k)
     if(!isSymmetric(x@coefs) |
        !identical(x@sbasis, x@tbasis))
         stop("need a symmetric bivariate function")
-    
+
     xmat = x@coefs
     w = penmat(x@sbasis, 0)
     wsqrtBoth = sqrtBothm(w)
     wsqrt = wsqrtBoth$sqrt
     wsqrtInv = wsqrtBoth$sqrtInv
-    
+
     mdecomp = wsqrt %*% xmat %*% wsqrt
     e = eigen(mdecomp)
-    
+
     newcoef = wsqrtInv %*% e$vectors %*% diag(e$values^k) %*% t(e$vectors) %*% wsqrtInv
     initialize(x, coefs = newcoef)
 }
