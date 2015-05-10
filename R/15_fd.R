@@ -26,6 +26,22 @@ setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
 
 
 
+#' Creating A Functional Data Object
+#'
+#' This function constructs an \code{\link[=fd+-class]{fd+}} object
+#' that represents a set of functional data.
+#'
+#' @param coefs A matrix whose each row gives the coefficients of basis functions
+#'              for each curve in this object. If \code{coefs} is a vector, it
+#'              is treated as a matrix of one row.
+#' @param basis Basis of this functional data object. Should be of class
+#'              \code{\link[=basis+-class]{basis+}} or one of its subclasses
+#'              (\code{\link[=bspline+-class]{bspline+}} and
+#'              \code{\link[=fourier+-class]{fourier+}}).
+#'
+#' @return An \code{\link[=fd+-class]{fd+}} object with the given basis and coefficients.
+#' @author Yixuan Qiu <\url{http://statr.me/}>
+#' @export
 fd_new = function(coefs, basis)
 {
     if(is.matrix(coefs))
