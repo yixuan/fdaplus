@@ -22,4 +22,4 @@ Copyright: see file COPYRIGHTS
 Depends: methods
 Imports: splines, Rcpp (>= 0.11.0)
 LinkingTo: Rcpp, RcppEigen
-Suggests: rgl
+Suggests: fda, rgl
