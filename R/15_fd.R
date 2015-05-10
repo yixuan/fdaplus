@@ -87,9 +87,15 @@ setMethod("[",
     initialize(x, coefs = newcoefs)
 }
 
-#' @describeIn feval Evaluating a Functional Data Object
+#' @rdname feval-methods
 #'
-#' \code{x} is a numeric vector. \code{feval(f, x)} returns a matrix \code{R} of
+#' @section Method (fd+, numeric):
+#' \tabular{lcl}{
+#'   \code{f}  \tab - \tab  A \code{\link[=fd+-class]{fd+}} object. \cr
+#'   \code{x}  \tab - \tab  A numeric vector.
+#' }
+#'
+#' \code{feval(f, x)} returns a matrix \code{R} of
 #' \code{n} rows and \code{length(x)} columns where \code{n} is the number of
 #' function curves in \code{f}. \code{R[i, j]}
 #' equals the value of the \code{i}-th function evaluated on \code{x[j]}.

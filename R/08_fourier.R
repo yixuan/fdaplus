@@ -31,9 +31,16 @@ basis_fourier = function(range = c(0, 1), nbasis = 3, period = diff(range),
 # ...
 # B_{2k}(x) = scale * sin(omega * k * x)
 # B_{2k+1}(x) = scale * cos(omega * k * x)
-#' @describeIn feval Evaluating a Fourier Basis Function Object
+
+#' @rdname feval-methods
 #'
-#' \code{x} is a numeric vector. \code{feval(f, x)} returns a matrix \code{R} of
+#' @section Method (fourier+, numeric):
+#' \tabular{lcl}{
+#'   \code{f}  \tab - \tab  A \code{\link[=fourier+-class]{fourier+}} object. \cr
+#'   \code{x}  \tab - \tab  A numeric vector.
+#' }
+#'
+#' \code{feval(f, x)} returns a matrix \code{R} of
 #' \code{f@@ncoef} rows and \code{length(x)} columns, with \code{R[i, j]}
 #' representing the value of the \code{i}-th basis function evaluated on \code{x[j]}.
 setMethod("feval", signature(f = "fourier+", x = "numeric"),

@@ -36,7 +36,12 @@ wrap = function(obj, ...)
 
 #' Evaluating Various Types of Functional Data Objects
 #'
-#' @name feval
+#' This generic function provides methods to evaluate different types of
+#' functional data (basis function, univariate function, bivariate function)
+#' at specified argument values.
+#'
+#' @name feval-methods
+#' @aliases feval
 #' @usage feval(f, x, ...)
 #'
 #' ## For bifd+
@@ -44,9 +49,11 @@ wrap = function(obj, ...)
 #' @param f An object of class \code{\link[=basis+-class]{basis+}},
 #'        \code{\link[=fd+-class]{fd+}}, or \code{\link[=bifd+-class]{bifd+}}.
 #' @param x Values that \code{f} is evaluated on.
-#' @param y Only used when \code{f} is of class \code{\link[=bifd+-class]{bifd+}}.
+#' @param y Only used when \code{f} is of class \code{\link[=bifd+-class]{bifd+}},
+#'          in which case \code{f} is evaluated on two arguments, \code{x} and
+#'          \code{y}.
 #' @param \dots Additional parameters, currently unused.
-#' @return See section \strong{Methods} for the actual implementations of
+#' @return See \strong{Method (...)} sections for the actual implementations of
 #'         this generic function.
 NULL
 

@@ -62,9 +62,14 @@ setMethod("-", signature(e1 = "bifd+", e2 = "bifd+"),
           }
 )
 
-#' @describeIn feval Evaluating a Bivariate Functional Data Object
+#' @rdname feval-methods
 #'
-#' \code{x} and \code{y} are numeric vectors.
+#' @section Method (bifd+, numeric, numeric):
+#' \tabular{lcl}{
+#'   \code{f}     \tab - \tab  A \code{\link[=bifd+-class]{bifd+}} object. \cr
+#'   \code{x, y}  \tab - \tab  Numeric vectors.
+#' }
+#'
 #' \code{feval(f, x, y)} returns a matrix \code{R} of
 #' \code{length(x)} rows and \code{length(y)} columns, with \code{R[i, j]}
 #' equal to the value of \code{f(x[i], x[j])}.
