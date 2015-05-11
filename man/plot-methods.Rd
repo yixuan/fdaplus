@@ -8,7 +8,6 @@
 \alias{plot,fd+,missing-method}
 \alias{plot,fourier+,missing-method}
 \alias{plot-methods}
-\alias{plot3d,bifd+-method}
 \title{Visualizing A Functional Data Object}
 \usage{
 \S4method{plot}{`basis+`,missing}(x, y, ...)
@@ -19,9 +18,7 @@
 
 \S4method{plot}{`fd+`,missing}(x, y, ...)
 
-\S4method{plot}{`bifd+`,missing}(x, y, ...)
-
-\S4method{plot3d}{`bifd+`}(x, ...)
+\S4method{plot}{`bifd+`,missing}(x, y, ..., engine = c("graphics", "rgl"))
 }
 \arguments{
 \item{x}{An object of class \code{\link[=basis+-class]{basis+}},
@@ -30,8 +27,12 @@
 \item{y}{Unused and should be missing. For compatibility with the signature
 of the generic function.}
 
+\item{engine}{Only used in plotting \code{\link[=bifd+-class]{bifd+}} objects,
+to determine whether using \pkg{graphics}\code{::persp()}
+or \pkg{rgl}\code{::persp3d()} to draw the plot.}
+
 \item{\dots}{Additional graphical parameters passed to \code{matplot()},
-       \code{persp()} or \code{rgl::persp3d()}.}
+             \code{persp()} or \code{rgl::persp3d()}.}
 }
 \description{
 This generic function provides methods to visualize different types of

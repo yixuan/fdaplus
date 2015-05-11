@@ -82,24 +82,17 @@ setMethod("feval", signature(f = "bifd+", x = "numeric"),
 
 #' @rdname plot-methods
 setMethod("plot", signature(x = "bifd+", y = "missing"),
-          function(x, y, ...) {
+          function(x, y, ..., engine = c("graphics", "rgl")) {
               x0 = seq(x@sbasis@range[1], x@sbasis@range[2],
                        length.out = 101)
               y0 = seq(x@tbasis@range[1], x@tbasis@range[2],
                        length.out = 101)
               z = feval(x, x0, y0)
-              persp(x0, y0, z, ...)
-          }
-)
-#' @rdname plot-methods
-setMethod("plot3d", signature(x = "bifd+"),
-          function(x, ...) {
-              x0 = seq(x@sbasis@range[1], x@sbasis@range[2],
-                       length.out = 101)
-              y0 = seq(x@tbasis@range[1], x@tbasis@range[2],
-                       length.out = 101)
-              z = feval(x, x0, y0)
-              rgl::persp3d(x0, y0, z, ...)
+
+              if(engine[1] == "rgl")
+                  rgl::persp3d(x0, y0, z, ...)
+              else
+                  persp(x0, y0, z, ...)
           }
 )
 

@@ -12,7 +12,7 @@ S3method(c, "fd+")
 
 importFrom(graphics, plot)
 importFrom(stats, sd, var, cov)
-exportMethods("[", "$", "+", "-", "*", "/", "^", feval, plot, plot3d,
+exportMethods("[", "$", "+", "-", "*", "/", "^", feval, plot,
               "%*%", penmat, mean, sd, var, cov, eig)
 
 exportClasses("basis+", "bspline+", "fourier+")

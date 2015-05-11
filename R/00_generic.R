@@ -89,11 +89,14 @@ if(!isGeneric("feval"))
 #' @name plot-methods
 #'
 #' @param x An object of class \code{\link[=basis+-class]{basis+}},
-#'        \code{\link[=fd+-class]{fd+}}, or \code{\link[=bifd+-class]{bifd+}}.
+#'          \code{\link[=fd+-class]{fd+}}, or \code{\link[=bifd+-class]{bifd+}}.
 #' @param y Unused and should be missing. For compatibility with the signature
-#'        of the generic function.
+#'          of the generic function.
+#' @param engine Only used in plotting \code{\link[=bifd+-class]{bifd+}} objects,
+#'               to determine whether using \pkg{graphics}\code{::persp()}
+#'               or \pkg{rgl}\code{::persp3d()} to draw the plot.
 #' @param \dots Additional graphical parameters passed to \code{matplot()},
-#'        \code{persp()} or \code{rgl::persp3d()}.
+#'              \code{persp()} or \code{rgl::persp3d()}.
 #'
 #' @export
 #' @author Yixuan Qiu <\url{http://statr.me/}>
@@ -101,8 +104,7 @@ NULL
 
 if(!isGeneric("plot"))
     setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
-if(!isGeneric("plot3d"))
-    setGeneric("plot3d", function(x, ...) standardGeneric("plot3d"))
+
 
 
 ## Inner product of functional data objects
