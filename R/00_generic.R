@@ -81,7 +81,22 @@ if(!isGeneric("feval"))
 
 
 
-## Plot functional data objects
+#' Visualizing A Functional Data Object
+#'
+#' This generic function provides methods to visualize different types of
+#' functional data (basis function, univariate function, bivariate function).
+#'
+#' @name plot-methods
+#'
+#' @param x An object of class \code{\link[=basis+-class]{basis+}},
+#'        \code{\link[=fd+-class]{fd+}}, or \code{\link[=bifd+-class]{bifd+}}.
+#' @param \dots Additional graphical parameters passed to \code{matplot()},
+#'        \code{persp()} or \code{rgl::persp3d()}.
+#'
+#' @export
+#' @author Yixuan Qiu <\url{http://statr.me/}>
+NULL
+
 if(!isGeneric("plot"))
     setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 if(!isGeneric("plot3d"))

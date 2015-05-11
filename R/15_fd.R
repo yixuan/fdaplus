@@ -105,10 +105,10 @@ setMethod("feval", signature(f = "fd+", x = "numeric"),
           }
 )
 
-## A generic implementation of plot() for fd+ class
-## Will call feval() on fd+
+#' @rdname plot-methods
+#' @usage \S4method{plot}{`fd+`,missing}(x, ...)
 setMethod("plot", signature(x = "fd+", y = "missing"),
-          function(x, y, ...) {
+          function(x, ...) {
               x0 = seq(x@basis@range[1], x@basis@range[2],
                        length.out = 101)
               args = list(...)

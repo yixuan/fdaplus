@@ -71,8 +71,10 @@ setMethod("feval", signature(f = "fourier+", x = "numeric"),
           }
 )
 
+#' @rdname plot-methods
+#' @usage \S4method{plot}{`fourier+`,missing}(x, ...)
 setMethod("plot", signature(x = "fourier+", y = "missing"),
-          function(x, y, ...) {
+          function(x, ...) {
               args = list(...)
               if(!"ylab" %in% names(args))
                   args = c(args, ylab = "Fourier basis")

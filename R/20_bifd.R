@@ -80,10 +80,10 @@ setMethod("feval", signature(f = "bifd+", x = "numeric"),
           }
 )
 
-## A generic implementation of plot() for bifd+ class
-## Will call feval() on bifd+
+#' @rdname plot-methods
+#' @usage \S4method{plot}{`bifd+`,missing}(x, ...)
 setMethod("plot", signature(x = "bifd+", y = "missing"),
-          function(x, y, ...) {
+          function(x, ...) {
               x0 = seq(x@sbasis@range[1], x@sbasis@range[2],
                        length.out = 101)
               y0 = seq(x@tbasis@range[1], x@tbasis@range[2],
@@ -92,6 +92,7 @@ setMethod("plot", signature(x = "bifd+", y = "missing"),
               persp(x0, y0, z, ...)
           }
 )
+#' @rdname plot-methods
 setMethod("plot3d", signature(x = "bifd+"),
           function(x, ...) {
               x0 = seq(x@sbasis@range[1], x@sbasis@range[2],
