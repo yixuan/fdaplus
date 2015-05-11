@@ -1,7 +1,7 @@
 #' Univariate Functional Data Object
 #'
-#' A functional data object consists of one or more function curves, each
-#' expressed as a linear combination of a system of basis functions.
+#' A univariate functional data object consists of one or more function curves,
+#' each expressed as a linear combination of a system of basis functions.
 #' Functions in one object are assumed to share the same basis, so an
 #' \code{fd+} object is composed of one \code{\link[=basis+-class]{basis+}}
 #' object and the corresponding coefficients.
@@ -26,10 +26,10 @@ setClass("fd+", slots = c(coefs = "matrix", basis = "basis+"),
 
 
 
-#' Creating A Functional Data Object
+#' Creating A Univariate Functional Data Object
 #'
 #' This function constructs an \code{\link[=fd+-class]{fd+}} object
-#' that represents a set of functional data.
+#' that represents a set of univariate functional data.
 #'
 #' @param coefs A matrix whose each row gives the coefficients of basis functions
 #'              for each curve in this object. If \code{coefs} is a vector, it

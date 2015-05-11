@@ -2,7 +2,7 @@
 % Please edit documentation in R/15_fd.R
 \name{fd_new}
 \alias{fd_new}
-\title{Creating A Functional Data Object}
+\title{Creating A Univariate Functional Data Object}
 \usage{
 fd_new(coefs, basis)
 }
@@ -21,7 +21,7 @@ An \code{\link[=fd+-class]{fd+}} object with the given basis and coefficients.
 }
 \description{
 This function constructs an \code{\link[=fd+-class]{fd+}} object
-that represents a set of functional data.
+that represents a set of univariate functional data.
 }
 \author{
 Yixuan Qiu <\url{http://statr.me/}>
