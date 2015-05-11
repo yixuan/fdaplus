@@ -126,10 +126,10 @@ wrap.basisfd = function(obj, ...)
     res
 }
 
-## A generic implementation of "[" for basis+ class
+#' @rdname subsetter-methods
 setMethod("[",
           signature(x = "basis+", i = "numeric", j = "missing", drop = "ANY"),
-          function(x, i, j, drop) {
+          function(x, i) {
               i = as.integer(i)
               if(any(i > x@ncoef))
                   stop("subscript out of bounds")

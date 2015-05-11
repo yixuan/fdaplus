@@ -22,7 +22,24 @@ wrap = function(obj, ...)
 
 
 
-## Retrieve a subset of functional data objects
+#' Subsetting A Functional Data Object
+#'
+#' This generic function provides methods to subset a functional data
+#' object (basis function or univariate function).
+#'
+#' @name [-methods
+#' @rdname subsetter-methods
+#'
+#' @param x An object of class \code{\link[=basis+-class]{basis+}}
+#'          or \code{\link[=fd+-class]{fd+}}.
+#' @param i An integer vector giving the indices of functions that are going
+#'          to be extracted.
+#' @param \dots Additional parameters, currently unused.
+#' @return An object of the same class as \code{x} containing the extracted functions.
+#' @export
+#' @author Yixuan Qiu <\url{http://statr.me/}>
+NULL
+
 ## "[" is already defined in base package as a generic
 
 
@@ -34,7 +51,7 @@ wrap = function(obj, ...)
 ## "c" is already a generic S3 method
 
 
-#' Evaluating Various Types of Functional Data Objects
+#' Evaluating A Functional Data Object
 #'
 #' This generic function provides methods to evaluate different types of
 #' functional data (basis function, univariate function, bivariate function)

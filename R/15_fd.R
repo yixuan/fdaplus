@@ -1,4 +1,4 @@
-#' Functional Data Object
+#' Univariate Functional Data Object
 #'
 #' A functional data object consists of one or more function curves, each
 #' expressed as a linear combination of a system of basis functions.
@@ -61,10 +61,10 @@ wrap.fd = function(obj, ...)
     new("fd+", coefs = t(obj$coefs), basis = wrap(obj$basis))
 }
 
-## A generic implementation of "[" for fd+ class
+#' @rdname subsetter-methods
 setMethod("[",
           signature(x = "fd+", i = "numeric", j = "missing", drop = "ANY"),
-          function(x, i, j, drop) {
+          function(x, i) {
               i = as.integer(i)
               newcoefs = x@coefs[i, , drop = FALSE]
               initialize(x, coefs = newcoefs)
