@@ -135,20 +135,40 @@ setMethod("plot", signature(x = "fd+", y = "missing"),
           }
 )
 
-## A generic implementation of "%*%" for fd+ class
-## Will call "%*%" on the basis
+#' @rdname inner_product
+#'
+#' @section Method (univariate function vs univariate function):
+#' \code{x} and \code{y} are two \code{\link[=fd+-class]{fd+}} objects
+#' which we do not require to have the same types of basis functions.
+#'
+#' Assume that \code{x} contains \code{m} functions and \code{y} contains
+#' \code{n} functions, and then \code{x \%*\% y} returns an \code{m} by \code{n}
+#' matrix \code{P}, whose element \code{P[i, j]} is the inner product between
+#' the \code{i}-th function of \code{x} and the \code{j}-th function of \code{y}.
 setMethod("%*%", signature(x = "fd+", y = "fd+"),
           function(x, y) {
               x@coefs %*% (x@basis %*% y@basis) %*% t(y@coefs)
           }
 )
 
+#' @rdname inner_product
+#'
+#' @section Method (univariate function vs basis):
+#' Assueme that \code{x} is an \code{\link[=fd+-class]{fd+}} object and \code{y}
+#' a \code{\link[=basis+-class]{basis+}} object (or vice versa). We do not require
+#' \code{x} to have the same basis as \code{y}.
+#'
+#' If \code{x} contains \code{m} functions and \code{y} contains
+#' \code{n} functions, then \code{x \%*\% y} returns an \code{m} by \code{n}
+#' matrix \code{P}, whose element \code{P[i, j]} is the inner product between
+#' the \code{i}-th function of \code{x} and the \code{j}-th function of \code{y}.
 setMethod("%*%", signature(x = "fd+", y = "basis+"),
           function(x, y) {
               x@coefs %*% (x@basis %*% y)
           }
 )
 
+#' @rdname inner_product
 setMethod("%*%", signature(x = "basis+", y = "fd+"),
           function(x, y) {
               (x %*% y@basis) %*% t(y@coefs)

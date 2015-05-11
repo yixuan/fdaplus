@@ -104,6 +104,26 @@ if(!isGeneric("plot"))
 ## *** For basis+ class, it returns an p by p matrix
 ##     p is the number of basis functions
 ##     P(i, j) = integrate B_i(x) * B_j(x) dx
+
+#' Calculating Inner Products between Functional Data Objects
+#'
+#' This generic function provides methods to calculate inner products between
+#' functional data objects (basis functions, univariate functions and bivariate
+#' functions).
+#'
+#' @name %*%
+#' @rdname inner_product
+#' @aliases inner_product
+#' @usage x \%*\% y
+#'
+#' @param x,y Objects of classes \code{\link[=basis+-class]{basis+}},
+#'            \code{\link[=fd+-class]{fd+}} or \code{\link[=bifd+-class]{bifd+}}.
+#' @return See \strong{Method (...)} sections for the explanation of various
+#'         types of results.
+#' @export
+#' @author Yixuan Qiu <\url{http://statr.me/}>
+NULL
+
 if(!isGeneric("%*%"))
     setGeneric("%*%")
 

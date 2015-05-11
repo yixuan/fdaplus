@@ -111,6 +111,7 @@ setMethod("plot", signature(x = "bspline+", y = "missing"),
           }
 )
 
+#' @rdname inner_product
 setMethod("%*%", signature(x = "bspline+", y = "bspline+"),
           function(x, y) {
               if(!isTRUE(all.equal(x@range, y@range)))

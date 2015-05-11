@@ -158,8 +158,18 @@ setMethod("plot", signature(x = "basis+", y = "missing"),
           }
 )
 
-## A generic implementation of inner product for basis+ class
-## Calls feval()
+#' @rdname inner_product
+#'
+#' @section Method (basis vs basis):
+#' \code{x} and \code{y} are two \code{\link[=basis+-class]{basis+}} objects,
+#' not necessarily of the same type (for example, one can be
+#' \code{\link[=bspline+-class]{bspline+}} and the other be
+#' \code{\link[=fourier+-class]{fourier+}}).
+#'
+#' Assume that \code{x} contains \code{m} functions and \code{y} contains
+#' \code{n} functions, and then \code{x \%*\% y} returns an \code{m} by \code{n}
+#' matrix \code{P}, whose element \code{P[i, j]} is the inner product between
+#' the \code{i}-th function of \code{x} and the \code{j}-th function of \code{y}.
 setMethod("%*%", signature(x = "basis+", y = "basis+"),
           function(x, y) {
               if(!isTRUE(all.equal(x@range, y@range)))
