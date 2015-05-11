@@ -71,8 +71,20 @@ setMethod("[",
           }
 )
 
-## A generic implementation of "c" for fd+ class
-`c.fd+` = function(x, ..., recursive = FALSE)
+#' Combining Multiple Univariate Functional Data Objects
+#'
+#' This function combines a series of \code{\link[=fd+-class]{fd+}} objects
+#' that share the same basis into a single one.
+#'
+#' @usage \method{c}{`fd+`}(x, ...)
+#' @param x,\dots \code{\link[=fd+-class]{fd+}} objects to be combined. They should
+#'                have the same basis functions.
+#'
+#' @return An \code{\link[=fd+-class]{fd+}} object that contains all the functions
+#'         in the list.
+#' @author Yixuan Qiu <\url{http://statr.me/}>
+#' @export
+`c.fd+` = function(x, ...)
 {
     objs = list(x, ...)
     if(length(objs) < 2)  return(x)
