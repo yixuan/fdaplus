@@ -11,21 +11,24 @@
 \alias{plot3d,bifd+-method}
 \title{Visualizing A Functional Data Object}
 \usage{
-\S4method{plot}{`basis+`,missing}(x, ...)
+\S4method{plot}{`basis+`,missing}(x, y, ...)
 
-\S4method{plot}{`fourier+`,missing}(x, ...)
+\S4method{plot}{`fourier+`,missing}(x, y, ...)
 
-\S4method{plot}{`bspline+`,missing}(x, ...)
+\S4method{plot}{`bspline+`,missing}(x, y, ...)
 
-\S4method{plot}{`fd+`,missing}(x, ...)
+\S4method{plot}{`fd+`,missing}(x, y, ...)
 
-\S4method{plot}{`bifd+`,missing}(x, ...)
+\S4method{plot}{`bifd+`,missing}(x, y, ...)
 
 \S4method{plot3d}{`bifd+`}(x, ...)
 }
 \arguments{
 \item{x}{An object of class \code{\link[=basis+-class]{basis+}},
 \code{\link[=fd+-class]{fd+}}, or \code{\link[=bifd+-class]{bifd+}}.}
+
+\item{y}{Unused and should be missing. For compatibility with the signature
+of the generic function.}
 
 \item{\dots}{Additional graphical parameters passed to \code{matplot()},
        \code{persp()} or \code{rgl::persp3d()}.}

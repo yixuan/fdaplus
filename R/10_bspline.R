@@ -101,9 +101,8 @@ setMethod("feval", signature(f = "bspline+", x = "numeric"),
 )
 
 #' @rdname plot-methods
-#' @usage \S4method{plot}{`bspline+`,missing}(x, ...)
 setMethod("plot", signature(x = "bspline+", y = "missing"),
-          function(x, ...) {
+          function(x, y, ...) {
               args = list(...)
               if(!"ylab" %in% names(args))
                   args = c(args, ylab = "Bspline basis")

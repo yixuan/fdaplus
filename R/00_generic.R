@@ -90,6 +90,8 @@ if(!isGeneric("feval"))
 #'
 #' @param x An object of class \code{\link[=basis+-class]{basis+}},
 #'        \code{\link[=fd+-class]{fd+}}, or \code{\link[=bifd+-class]{bifd+}}.
+#' @param y Unused and should be missing. For compatibility with the signature
+#'        of the generic function.
 #' @param \dots Additional graphical parameters passed to \code{matplot()},
 #'        \code{persp()} or \code{rgl::persp3d()}.
 #'

@@ -142,9 +142,8 @@ setMethod("[",
 )
 
 #' @rdname plot-methods
-#' @usage \S4method{plot}{`basis+`,missing}(x, ...)
 setMethod("plot", signature(x = "basis+", y = "missing"),
-          function(x, ...) {
+          function(x, y, ...) {
               x0 = seq(x@range[1], x@range[2], length.out = 101)
               args = list(...)
               if(!"type" %in% names(args))

@@ -81,9 +81,8 @@ setMethod("feval", signature(f = "bifd+", x = "numeric"),
 )
 
 #' @rdname plot-methods
-#' @usage \S4method{plot}{`bifd+`,missing}(x, ...)
 setMethod("plot", signature(x = "bifd+", y = "missing"),
-          function(x, ...) {
+          function(x, y, ...) {
               x0 = seq(x@sbasis@range[1], x@sbasis@range[2],
                        length.out = 101)
               y0 = seq(x@tbasis@range[1], x@tbasis@range[2],
