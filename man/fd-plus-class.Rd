@@ -3,7 +3,7 @@
 \docType{class}
 \name{fd+-class}
 \alias{fd+-class}
-\title{Functional Data Object}
+\title{Univariate Functional Data Object}
 \description{
 A functional data object consists of one or more function curves, each
 expressed as a linear combination of a system of basis functions.

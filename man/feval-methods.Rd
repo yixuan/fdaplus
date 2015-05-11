@@ -8,7 +8,7 @@
 \alias{feval,fd+,numeric-method}
 \alias{feval,fourier+,numeric-method}
 \alias{feval-methods}
-\title{Evaluating Various Types of Functional Data Objects}
+\title{Evaluating A Functional Data Object}
 \usage{
 feval(f, x, ...)
 
