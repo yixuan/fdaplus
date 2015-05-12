@@ -133,6 +133,7 @@ setMethod("%*%", signature(x = "bspline+", y = "bspline+"),
           }
 )
 
+#' @rdname penmat-methods
 setMethod("penmat", signature(basis = "bspline+", penalty = "numeric"),
           function(basis, penalty, ...) {
               ord = as.integer(basis@degree + 1)

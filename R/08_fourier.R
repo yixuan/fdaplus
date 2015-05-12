@@ -95,6 +95,7 @@ setMethod("%*%", signature(x = "fourier+", y = "fourier+"),
           }
 )
 
+#' @rdname penmat-methods
 setMethod("penmat", signature(basis = "fourier+", penalty = "numeric"),
           function(basis, penalty, ...) {
               penalty = as.integer(penalty)

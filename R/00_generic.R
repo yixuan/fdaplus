@@ -100,11 +100,6 @@ if(!isGeneric("plot"))
 
 
 
-## Inner product of functional data objects
-## *** For basis+ class, it returns an p by p matrix
-##     p is the number of basis functions
-##     P(i, j) = integrate B_i(x) * B_j(x) dx
-
 #' Calculating Inner Products between Functional Data Objects
 #'
 #' This generic function provides methods to calculate inner products between
@@ -132,9 +127,35 @@ if(!isGeneric("%*%"))
 ## "+", "-", "*", "/" and "^" are already defined in base package as generics
 
 
+
 ## Penalty matrix of basis function
 ## P(i, j) = integrate B^(k)_i(x) * B^(k)_j(x) dx
 ## k is the order of derivative, given by the "penalty" argument
+
+#' Calculating the Basis Penalty Matrix
+#'
+#' This function calculates the penalty matrix \eqn{R} of a basis object
+#' (for example of class \code{\link[=bspline+-class]{bspline+}} or
+#' \code{\link[=fourier+-class]{fourier+}}). The element
+#' \eqn{R_{ij}}{R[i, j]} is equal
+#' to the inner product of \eqn{f_i^{(k)}}{f_i^(k)} and
+#' \eqn{f_j^{(k)}}{f_j^(k)}, where \eqn{f_i^{(k)}}{f_i^(k)} is the \eqn{k}-th
+#' derivative of the \eqn{i}-th basis.
+#'
+#' @name penmat-methods
+#' @aliases penmat
+#' @usage penmat(basis, penalty, ...)
+#'
+#' @param basis An object inherited from \code{\link[=basis+-class]{basis+}}.
+#'              Can be of class \code{\link[=bspline+-class]{bspline+}} or
+#'              \code{\link[=fourier+-class]{fourier+}}.
+#' @param penalty An integer giving the order of derivative.
+#' @param \dots Currently unused.
+#'
+#' @return A symmetric non-negative definite penalty matrix.
+#' @export
+#' @author Yixuan Qiu <\url{http://statr.me/}>
+#'
 if(!isGeneric("penmat"))
     setGeneric("penmat", function(basis, penalty, ...)
         standardGeneric("penmat"))
