@@ -175,7 +175,7 @@ setMethod("%*%", signature(x = "basis+", y = "basis+"),
               if(!isTRUE(all.equal(x@range, y@range)))
                   stop("range of x and y must be the same")
 
-              res = .Call("basis_inprod", x, y)
+              res = .Call("basis_inprod", x, y, PACKAGE = "fdaplus")
               dim(res) = c(x@ncoef, y@ncoef)
               res
           }

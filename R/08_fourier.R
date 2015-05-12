@@ -67,7 +67,7 @@ setMethod("feval", signature(f = "fourier+", x = "numeric"),
           function(f, x, ...) {
               ind = as.integer(setdiff(seq(f@nbasis), f@dropind))
               x = x - f@range[1]
-              .Call("fourier_feval", x, ind, f@period)
+              .Call("fourier_feval", x, ind, f@period, PACKAGE = "fdaplus")
           }
 )
 
@@ -91,7 +91,7 @@ setMethod("%*%", signature(x = "fourier+", y = "fourier+"),
               indx = as.integer(setdiff(seq(x@nbasis), x@dropind))
               indy = as.integer(setdiff(seq(y@nbasis), y@dropind))
               .Call("fourier_inprod", x@range - x@range[1],
-                    indx, indy, x@period, y@period)
+                    indx, indy, x@period, y@period, PACKAGE = "fdaplus")
           }
 )
 
@@ -106,6 +106,6 @@ setMethod("penmat", signature(basis = "fourier+", penalty = "numeric"),
 
               ind = as.integer(setdiff(seq(basis@nbasis), basis@dropind))
               .Call("fourier_penmat", basis@range - basis@range[1],
-                    ind, basis@period, penalty)
+                    ind, basis@period, penalty, PACKAGE = "fdaplus")
           }
 )

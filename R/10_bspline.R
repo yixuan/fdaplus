@@ -123,7 +123,8 @@ setMethod("%*%", signature(x = "bspline+", y = "bspline+"),
                                        rep(x@range[2], ordx)))
               allknotsy = as.numeric(c(rep(y@range[1], ordy), y@knots,
                                        rep(y@range[2], ordy)))
-              res = .Call("bspline_inprod", x, y, allknotsx, allknotsy)
+              res = .Call("bspline_inprod", x, y, allknotsx, allknotsy,
+                          PACKAGE = "fdaplus")
               dim(res) = c(x@nbasis, y@nbasis)
               if(!length(x@dropind) & !length(y@dropind))
                   return(res)
@@ -145,7 +146,8 @@ setMethod("penmat", signature(basis = "bspline+", penalty = "numeric"),
               allknots = as.numeric(c(rep(basis@range[1], ord),
                                       basis@knots,
                                       rep(basis@range[2], ord)))
-              res = .Call("bspline_penmat", basis, allknots, penalty)
+              res = .Call("bspline_penmat", basis, allknots, penalty,
+                          PACKAGE = "fdaplus")
               if(!length(basis@dropind))
                   return(res)
               else
