@@ -1,6 +1,23 @@
-## coefs is an p1 by p2 matrix
-## p1 == sbasis@ncoef
-## p2 == tbasis@ncoef
+#' Bivariate Function Using Basis Expansion
+#'
+#' This class defines bivariate functions that can be expressed by two sets
+#' of basis functions and the associated coefficient matrix. It takes the following
+#' form:
+#'
+#' \deqn{K(s,t)=\sum_{i,j} a_{ij}f_i(s)g_j(t)}{K(s, t) = sum_{i,j} a_{ij} * f_i(s) * g_j(t)}
+#'
+#' Here \eqn{K(s, t)} is the bivariate function, \eqn{f_i} and \eqn{g_j} are
+#' two basis systems, and \eqn{A = (a_{ij})} is the coefficient matrix.
+#'
+#' @slot sbasis,tbasis Basis objects of class \code{\link[=basis+-class]{basis+}},
+#'                     not necessarily of the same type (for example, one can be
+#'                     \code{\link[=bspline+-class]{bspline+}} and the other be
+#'                     \code{\link[=fourier+-class]{fourier+}}).
+#' @slot coefs A matrix of dimension \code{m} by \code{n} where \code{m}
+#'             is the number of functions in \code{sbasis}, and \code{n}
+#'             is the number of functions in \code{tbasis}.
+#'
+#' @export
 setClass("bifd+", slots = c(coefs = "matrix",
                             sbasis = "basis+",
                             tbasis = "basis+"),
@@ -15,6 +32,21 @@ setClass("bifd+", slots = c(coefs = "matrix",
 
 
 
+#' Creating A Bivariate Function Using Basis Expansion
+#'
+#' This function constructs a \code{\link[=bifd+-class]{bifd+}} object
+#' that represents a bivariate function.
+#'
+#' @slot coefs The coefficient matrix.
+#' @slot sbasis,tbasis Basis objects of class \code{\link[=basis+-class]{basis+}},
+#'                     not necessarily of the same type (for example, one can be
+#'                     \code{\link[=bspline+-class]{bspline+}} and the other be
+#'                     \code{\link[=fourier+-class]{fourier+}}).
+#'
+#' @return An \code{\link[=bifd+-class]{bifd+}} object with the given
+#'         bases and coefficients.
+#' @author Yixuan Qiu <\url{http://statr.me/}>
+#' @export
 bifd_new = function(coefs, sbasis, tbasis = sbasis)
 {
     new("bifd+", coefs = coefs, sbasis = sbasis, tbasis = tbasis)
