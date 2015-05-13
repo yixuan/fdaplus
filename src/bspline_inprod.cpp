@@ -1,41 +1,43 @@
 #include <RcppEigen.h>
 #include "integral.h"
 
-using namespace Rcpp;
-typedef Eigen::Map<Eigen::MatrixXd> MapMat;
-
 extern "C" {
 
 SEXP spline_basis(SEXP knots, SEXP order, SEXP xvals, SEXP derivs);
 
 }
 
-class BsplineInprod : public VectorIntegrandBatch
+class BsplineInprodIntegrand : public VectorFunc
 {
 private:
+    typedef Rcpp::RObject RObject;
+    typedef Rcpp::IntegerVector IntegerVector;
+    typedef Rcpp::NumericVector NumericVector;
+    typedef Rcpp::NumericMatrix NumericMatrix;
+    typedef Eigen::Map<Eigen::MatrixXd> MapMat;
+
     int nbasisX;
     int nbasisY;
-    SEXP knotsX;
-    SEXP knotsY;
+    RObject knotsX;
+    RObject knotsY;
     int orderX;
     int orderY;
     IntegerVector SorderX;
     IntegerVector SorderY;
-public:
-    BsplineInprod(int nbasisx_, int nbasisy_,
-                  SEXP knotsx_, SEXP knotsy_,
-                  int orderx_, int ordery_) :
-        VectorIntegrandBatch(nbasisx_ * nbasisy_),
-        nbasisX(nbasisx_), nbasisY(nbasisy_),
-        knotsX(knotsx_), knotsY(knotsy_),
-        orderX(orderx_), orderY(ordery_),
-        SorderX(1L, orderX), SorderY(1L, orderY)
-    {}
-    void eval(const double *x)
+
+    void eval(const double &x, double *res)
     {
-        NumericVector t(x, x + npoints);
-        IntegerVector derivs(npoints);
-        
+        MapMat r(res, fun_dim(), 1);
+        this->eval(&x, r);
+    }
+
+    void eval(const double *x, MapMat &res)
+    {
+        int npts = res.cols();
+
+        NumericVector t(x, x + npts);
+        IntegerVector derivs(npts, 0L);
+
         NumericMatrix bsmatX = spline_basis(knotsX, SorderX, t, derivs);
         NumericMatrix bsmatY = spline_basis(knotsY, SorderY, t, derivs);
         /*
@@ -44,7 +46,7 @@ public:
         This is because for each x0, there are at most "norder"
         basis functions B_j so that B_j(x0) != 0
         For example, if B_j(x_i) is
-        
+
                [,1]    [,2]    [,3]    [,4]    [,5]  [,6]
          [1,] 1.000 0.00000 0.00000 0.00000 0.00000 0.000
          [2,] 0.343 0.54225 0.11025 0.00450 0.00000 0.000
@@ -57,9 +59,9 @@ public:
          [9,] 0.000 0.00000 0.03600 0.34200 0.55800 0.064
         [10,] 0.000 0.00000 0.00450 0.11025 0.54225 0.343
         [11,] 0.000 0.00000 0.00000 0.00000 0.00000 1.000
-        
+
         Then trasnpose(bsmatX) is
-        
+
                  [,1]    [,2]    [,3]    [,4]
          [1,] 1.00000 0.00000 0.00000 0.00000
          [2,] 0.34300 0.54225 0.11025 0.00450
@@ -77,7 +79,7 @@ public:
 
         The offset indicates the start location of data in each row of
         B_j(x_i).
-        
+
         Now for each k, outer[i, j] = Bx_i(x_k) * By_j(x_k)
         and outer has at most orderX * orderY nonzero elements.
         i goes from offsetX[k] to offsetX[k] + orderX
@@ -85,10 +87,10 @@ public:
         */
         NumericVector offsetX = bsmatX.attr("Offsets");
         NumericVector offsetY = bsmatY.attr("Offsets");
-        result.setZero();
-        for(int k = 0; k < npoints; k++)
+        res.setZero();
+        for(int k = 0; k < npts; k++)
         {
-            MapMat outer(&result(0, k), nbasisX, nbasisY);
+            MapMat outer(&res(0, k), nbasisX, nbasisY);
             int startX = offsetX[k], endX = offsetX[k] + orderX;
             int startY = offsetY[k], endY = offsetY[k] + orderY;
             double *dataX = &bsmatX(0, k);
@@ -102,9 +104,24 @@ public:
             }
         }
     }
+public:
+    BsplineInprodIntegrand(int nbasisx_, int nbasisy_,
+                           RObject knotsx_, RObject knotsy_,
+                           int orderx_, int ordery_) :
+        VectorFunc(nbasisx_ * nbasisy_),
+        nbasisX(nbasisx_), nbasisY(nbasisy_),
+        knotsX(knotsx_), knotsY(knotsy_),
+        orderX(orderx_), orderY(ordery_),
+        SorderX(1, orderX), SorderY(1, orderY)
+    {}
 };
 
 
+
+using Rcpp::RObject;
+using Rcpp::NumericVector;
+using Rcpp::wrap;
+using Rcpp::as;
 
 RcppExport SEXP bspline_inprod(SEXP x, SEXP y, SEXP allknotsx,
                                SEXP allknotsy)
@@ -120,10 +137,10 @@ BEGIN_RCPP
     int nbasisY = as<int>(basisY.slot("nbasis"));
     int orderX = as<int>(basisX.slot("degree")) + 1;
     int orderY = as<int>(basisY.slot("degree")) + 1;
-   
-    BsplineInprod integr(nbasisX, nbasisY,
-                         knotsX, knotsY, orderX, orderY);
-    VectorCubatureBatch cuba(&integr, intrange[0], intrange[1]);
+
+    BsplineInprodIntegrand integr(nbasisX, nbasisY,
+                                  knotsX, knotsY, orderX, orderY);
+    VectorCubature cuba(&integr, intrange[0], intrange[1]);
     return wrap(cuba.values());
     /*
     return List::create(Named("value") = wrap(cuba.values()),

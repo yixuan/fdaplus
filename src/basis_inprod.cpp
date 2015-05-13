@@ -1,40 +1,58 @@
 #include <RcppEigen.h>
 #include "integral.h"
 
-using namespace Rcpp;
-typedef Eigen::Map<Eigen::MatrixXd> MapMat;
-
-class BasisInprod : public VectorIntegrandBatch
+class BasisInprodIntegrand : public VectorFunc
 {
 private:
+    typedef Rcpp::RObject RObject;
+    typedef Rcpp::Environment Environment;
+    typedef Rcpp::Function Function;
+    typedef Rcpp::NumericVector NumericVector;
+    typedef Rcpp::NumericMatrix NumericMatrix;
+    typedef Eigen::Map<Eigen::MatrixXd> MapMat;
+
     RObject basisX;
     RObject basisY;
     Environment fdaplus;
     Function feval;
-public:
-    BasisInprod(RObject basisX_, RObject basisY_,
-                int ncoefX_, int ncoefY_) :
-        VectorIntegrandBatch(ncoefX_ * ncoefY_),
-        basisX(basisX_), basisY(basisY_),
-        fdaplus("package:fdaplus"), feval(fdaplus["feval"])
-    {}
-    void eval(const double *x)
+
+    void eval(const double &x, double *res)
     {
-        NumericVector t(x, x + npoints);
+        MapMat r(res, fun_dim(), 1L);
+        this->eval(&x, r);
+    }
+
+    void eval(const double *x, MapMat &res)
+    {
+        int npts = res.cols();
+
+        NumericVector t(x, x + npts);
         NumericMatrix bmatX = feval(basisX, t);
         NumericMatrix bmatY = feval(basisY, t);
-        
-        MapMat matX(as<MapMat>(bmatX));
-        MapMat matY(as<MapMat>(bmatY));
-        for(int j = 0; j < npoints; j++)
+
+        MapMat matX(Rcpp::as<MapMat>(bmatX));
+        MapMat matY(Rcpp::as<MapMat>(bmatY));
+        for(int j = 0; j < npts; j++)
         {
-            MapMat outer(&result(0, j), matX.rows(), matY.rows());
+            MapMat outer(&res(0, j), matX.rows(), matY.rows());
             outer = matX.col(j) * matY.col(j).transpose();
         }
     }
+public:
+    BasisInprodIntegrand(RObject basisX_, RObject basisY_,
+                         int ncoefX_, int ncoefY_) :
+        VectorFunc(ncoefX_ * ncoefY_),
+        basisX(basisX_), basisY(basisY_),
+        fdaplus("package:fdaplus"), feval(fdaplus["feval"])
+    {}
 };
 
 
+
+using Rcpp::RObject;
+using Rcpp::NumericVector;
+using Rcpp::wrap;
+using Rcpp::as;
 
 RcppExport SEXP basis_inprod(SEXP x, SEXP y)
 {
@@ -45,9 +63,9 @@ BEGIN_RCPP
     NumericVector intrange(basisX.slot("range"));
     int ncoefX = as<int>(basisX.slot("ncoef"));
     int ncoefY = as<int>(basisY.slot("ncoef"));
-   
-    BasisInprod integr(x, y, ncoefX, ncoefY);
-    VectorCubatureBatch cuba(&integr, intrange[0], intrange[1]);
+
+    BasisInprodIntegrand integr(x, y, ncoefX, ncoefY);
+    VectorCubature cuba(&integr, intrange[0], intrange[1]);
     return wrap(cuba.values());
 
 END_RCPP

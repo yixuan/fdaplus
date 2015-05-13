@@ -1,45 +1,48 @@
 #include <RcppEigen.h>
 #include "integral.h"
 
-using namespace Rcpp;
-typedef Eigen::Map<Eigen::VectorXd> MapVec;
-
 extern "C" {
 
 SEXP spline_basis(SEXP knots, SEXP order, SEXP xvals, SEXP derivs);
 
 }
 
-class BsplinePenmat : public VectorIntegrandBatch
+class BsplinePenmatIntegrand : public VectorFunc
 {
 private:
+    typedef Rcpp::RObject RObject;
+    typedef Rcpp::IntegerVector IntegerVector;
+    typedef Rcpp::NumericVector NumericVector;
+    typedef Rcpp::NumericMatrix NumericMatrix;
+    typedef Eigen::Map<Eigen::VectorXd> MapVec;
+    typedef Eigen::Map<Eigen::MatrixXd> MapMat;
+
     int nbasis;
-    int fdim;
-    SEXP knots;
+    RObject knots;
     int order;
     IntegerVector Sorder;
     int deriv;
     IntegerVector Sderiv;
-public:
-    BsplinePenmat(int nbasis_, SEXP knots_, int order_, int deriv_) :
-        VectorIntegrandBatch(nbasis_ * (nbasis_ + 1) / 2),
-        nbasis(nbasis_),
-        fdim(nbasis_ * (nbasis_ + 1) / 2),
-        knots(knots_),
-        order(order_), Sorder(1L, order_),
-        deriv(deriv_), Sderiv(1L, deriv_)
-    {}
-    void eval(const double *x)
+
+    void eval(const double &x, double *res)
     {
-        NumericVector t(x, x + npoints);
-        IntegerVector derivs(npoints, deriv);
-        
+        MapMat r(res, fun_dim(), 1);
+        this->eval(&x, r);
+    }
+
+    void eval(const double *x, MapMat &res)
+    {
+        int npts = res.cols();
+
+        NumericVector t(x, x + npts);
+        IntegerVector derivs(npts, deriv);
+
         NumericMatrix bsmat = spline_basis(knots, Sorder, t, derivs);
         NumericVector offset = bsmat.attr("Offsets");
-        result.setZero();
-        for(int k = 0; k < npoints; k++)
+        res.setZero();
+        for(int k = 0; k < npts; k++)
         {
-            MapVec outer(&result(0, k), fdim);
+            MapVec outer(&res(0, k), fun_dim());
             int start = offset[k], end = offset[k] + order;
             double *data = &bsmat(0, k);
             double *writer;
@@ -56,11 +59,25 @@ public:
                 }
             }
         }
-        nevals += npoints;
     }
+
+public:
+    BsplinePenmatIntegrand(int nbasis_, SEXP knots_, int order_, int deriv_) :
+        VectorFunc(nbasis_ * (nbasis_ + 1) / 2),
+        nbasis(nbasis_),
+        knots(knots_),
+        order(order_), Sorder(1, order_),
+        deriv(deriv_), Sderiv(1, deriv_)
+    {}
 };
 
 
+
+using Rcpp::RObject;
+using Rcpp::NumericVector;
+using Rcpp::NumericMatrix;
+using Rcpp::wrap;
+using Rcpp::as;
 
 RcppExport SEXP bspline_penmat(SEXP x, SEXP allknots, SEXP penderiv)
 {
@@ -73,10 +90,10 @@ BEGIN_RCPP
     int order = as<int>(basis.slot("degree")) + 1;
     int deriv = as<int>(penderiv);
 
-    BsplinePenmat integr(nbasis, knots, order, deriv);
-    VectorCubatureBatch cuba(&integr, intrange[0], intrange[1]);
+    BsplinePenmatIntegrand integr(nbasis, knots, order, deriv);
+    VectorCubature cuba(&integr, intrange[0], intrange[1]);
     std::vector<double> values = cuba.values();
-    
+
     NumericMatrix res(nbasis, nbasis);
     for(int j = 0; j < nbasis; j++)
     {

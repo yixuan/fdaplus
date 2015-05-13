@@ -1,150 +1,92 @@
+#ifndef INTEGRAL_H
+#define INTEGRAL_H
+
 #include <RcppEigen.h>
 #include "cubature/cubature.h"
 
-// f(x), x is a scalar, f returns a vector of length nfuns
-// result[i] = f_i(x)
-class VectorIntegrand
+class VectorFunc
 {
-protected:
-    typedef Eigen::Map<Eigen::VectorXd> MapVec;
-    int nfuns;
-    int nevals;
-    MapVec result;
-
-    // given x, this function should assign f_i(x) to result[i]
-    virtual void eval(const double x) = 0;
-public:
-    VectorIntegrand(int nfuns_) :
-        nfuns(nfuns_), nevals(0), result(NULL, nfuns) {}
-    void setOutput(double *target_)
-    {
-        new (&result) MapVec(target_, nfuns);
-    }
-    void evalAndCount(const double *x)
-    {
-        eval(*x);
-        nevals++;
-    }
-    int funDim() { return nfuns; }
-    int funEvals() { return nevals; }
-};
-
-// similar to Integrand, but f can evaluate on a vector of x,
-// and return a matrix, with result[i, j] = f_i(x_j)
-class VectorIntegrandBatch
-{
-protected:
+private:
     typedef Eigen::Map<Eigen::MatrixXd> MapMat;
-    int nfuns;
-    int npoints;
-    int nevals;
-    MapMat result;
 
-    // given x, this function should assign f_i(x[j]) to result[i, j]
-    virtual void eval(const double *x) = 0;
+    const int fdim;
+    int nevals;
+
+    // f(x), x is a scalar, f returns a vector of length fdim
+    // res[i] = f_i(x)
+    virtual void eval(const double &x, double *res) = 0;
+    // f(x), x contains npts points, f returns a matrix of size fdim*npts
+    // result[i, j] = f_i(x_j)
+    virtual void eval(const double *x, MapMat &res)
+    {
+        int npts = res.cols();
+        for(int i = 0; i < npts; i++)
+        {
+            this->eval(x[i], &res(0, i));
+        }
+    }
+
 public:
-    VectorIntegrandBatch(int nfuns_) :
-        nfuns(nfuns_), npoints(1), nevals(0),
-        result(NULL, nfuns, npoints) {}
-    void setOutput(int npoints_, double *target_)
+    VectorFunc(const int fdim_) :
+        fdim(fdim_), nevals(0)
+    {}
+
+    virtual ~VectorFunc() {}
+
+    void eval_and_count(const double *x, const int npts, double *fval)
     {
-        npoints = npoints_;
-        new (&result) MapMat(target_, nfuns, npoints);
+        MapMat res(fval, fdim, npts);
+        this->eval(x, res);
+        nevals += npts;
     }
-    void evalAndCount(const double *x)
-    {
-        eval(x);
-        nevals += npoints;
-    }
-    int funDim() { return nfuns; }
-    int funEvals() { return nevals; }
+    int fun_dim() { return fdim; }
+    int fun_nevals() { return nevals; }
 };
 
-
-inline int vintegrand(unsigned ndim, const double *x, void *fdata,
-                       unsigned fdim, double *fval)
+inline int vintegrand(unsigned ndim, size_t npts, const double *x,
+                      void *fdata, unsigned fdim, double *fval)
 {
-    VectorIntegrand *integr = (VectorIntegrand *) fdata;
-    integr->setOutput(fval);
-    integr->evalAndCount(x);
+    VectorFunc *integr = (VectorFunc *) fdata;
+    integr->eval_and_count(x, npts, fval);
+
     return 0;
 }
 
 class VectorCubature
 {
 private:
-    VectorIntegrand *integr;
-    double lower;
-    double upper;
-    size_t maxEval;
-    double absEps;
-    double relEps;
-    std::vector<double> value;
-    std::vector<double> error;
+    VectorFunc *integr;
+    const double lower;
+    const double upper;
+    const size_t max_eval;
+    const double abs_eps;
+    const double rel_eps;
+    std::vector<double> val;
+    std::vector<double> err;
     int niter;
 public:
-    VectorCubature(VectorIntegrand *integrand_,
+    VectorCubature(VectorFunc *integrand_,
         double lower_,
         double upper_,
-        size_t maxEval_ = 2000,
-        double absEps_ = 1e-8,
-        double relEps_ = 1e-8) :
+        size_t max_eval_ = 2000,
+        double abs_eps_ = 1e-8,
+        double rel_eps_ = 1e-8) :
     integr(integrand_), lower(lower_), upper(upper_),
-    maxEval(maxEval_), absEps(absEps_), relEps(relEps_),
-    value(integrand_->funDim()), error(integrand_->funDim())
+    max_eval(max_eval_), abs_eps(abs_eps_), rel_eps(rel_eps_),
+    val(integr->fun_dim()), err(integr->fun_dim())
     {
-        hcubature(integr->funDim(), vintegrand, integr,
-                  1L, &lower, &upper,
-                  maxEval, absEps, relEps,
-                  ERROR_INDIVIDUAL,
-                  value.data(), error.data());
-        niter = integr->funEvals();
-    }
-    std::vector<double> values() { return value; }
-    std::vector<double> errors() { return error; }
-    int iterations() { return niter; }
-};
-
-inline int vintegrand_batch(unsigned ndim, size_t npts, const double *x,
-                     void *fdata, unsigned fdim, double *fval)
-{
-    VectorIntegrandBatch *integr = (VectorIntegrandBatch *) fdata;
-    integr->setOutput(npts, fval);
-    integr->evalAndCount(x);
-    return 0;
-}
-
-class VectorCubatureBatch
-{
-private:
-    VectorIntegrandBatch *integr;
-    double lower;
-    double upper;
-    size_t maxEval;
-    double absEps;
-    double relEps;
-    std::vector<double> value;
-    std::vector<double> error;
-    int niter;
-public:
-    VectorCubatureBatch(VectorIntegrandBatch *integrand_,
-        double lower_,
-        double upper_,
-        size_t maxEval_ = 2000,
-        double absEps_ = 1e-8,
-        double relEps_ = 1e-8) :
-    integr(integrand_), lower(lower_), upper(upper_),
-    maxEval(maxEval_), absEps(absEps_), relEps(relEps_),
-    value(integrand_->funDim()), error(integrand_->funDim())
-    {
-        hcubature_v(integr->funDim(), vintegrand_batch, integr,
+        hcubature_v(integr->fun_dim(), vintegrand, integr,
                     1L, &lower, &upper,
-                    maxEval, absEps, relEps,
+                    max_eval, abs_eps, rel_eps,
                     ERROR_INDIVIDUAL,
-                    value.data(), error.data());
-        niter = integr->funEvals();
+                    val.data(), err.data());
+        niter = integr->fun_nevals();
     }
-    std::vector<double> values() { return value; }
-    std::vector<double> errors() { return error; }
+    std::vector<double> values() { return val; }
+    std::vector<double> errors() { return err; }
     int iterations() { return niter; }
 };
+
+
+
+#endif // INTEGRAL_H
