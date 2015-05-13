@@ -37,8 +37,8 @@ setClass("bifd+", slots = c(coefs = "matrix",
 #' This function constructs a \code{\link[=bifd+-class]{bifd+}} object
 #' that represents a bivariate function.
 #'
-#' @slot coefs The coefficient matrix.
-#' @slot sbasis,tbasis Basis objects of class \code{\link[=basis+-class]{basis+}},
+#' @param coefs The coefficient matrix.
+#' @param sbasis,tbasis Basis objects of class \code{\link[=basis+-class]{basis+}},
 #'                     not necessarily of the same type (for example, one can be
 #'                     \code{\link[=bspline+-class]{bspline+}} and the other be
 #'                     \code{\link[=fourier+-class]{fourier+}}).

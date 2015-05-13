@@ -6,6 +6,14 @@
 \usage{
 bifd_new(coefs, sbasis, tbasis = sbasis)
 }
+\arguments{
+\item{coefs}{The coefficient matrix.}
+
+\item{sbasis,tbasis}{Basis objects of class \code{\link[=basis+-class]{basis+}},
+                    not necessarily of the same type (for example, one can be
+                    \code{\link[=bspline+-class]{bspline+}} and the other be
+                    \code{\link[=fourier+-class]{fourier+}}).}
+}
 \value{
 An \code{\link[=bifd+-class]{bifd+}} object with the given
         bases and coefficients.
@@ -14,16 +22,6 @@ An \code{\link[=bifd+-class]{bifd+}} object with the given
 This function constructs a \code{\link[=bifd+-class]{bifd+}} object
 that represents a bivariate function.
 }
-\section{Slots}{
-
-\describe{
-\item{\code{coefs}}{The coefficient matrix.}
-
-\item{\code{sbasis,tbasis}}{Basis objects of class \code{\link[=basis+-class]{basis+}},
-                    not necessarily of the same type (for example, one can be
-                    \code{\link[=bspline+-class]{bspline+}} and the other be
-                    \code{\link[=fourier+-class]{fourier+}}).}
-}}
 \author{
 Yixuan Qiu <\url{http://statr.me/}>
 }
