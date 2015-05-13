@@ -1,0 +1,16 @@
+PKG_LIBS = -L./cubature -lcubature
+
+.PHONY: all clean
+
+all: $(SHLIB)
+
+$(SHLIB): cubature/libcubature.a
+
+cubature/libcubature.a:
+	cd cubature && $(MAKE) all CC="$(CC)" CFLAGS="$(ALL_CFLAGS)" AR="$(AR)" RM="$(RM)"
+
+clean:
+	$(RM) *.o
+	$(RM) *.dll
+	$(RM) *.so
+	cd cubature && $(MAKE) clean

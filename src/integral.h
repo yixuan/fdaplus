@@ -1,5 +1,5 @@
 #include <RcppEigen.h>
-#include "cubature.h"
+#include "cubature/cubature.h"
 
 // f(x), x is a scalar, f returns a vector of length nfuns
 // result[i] = f_i(x)
@@ -10,7 +10,7 @@ protected:
     int nfuns;
     int nevals;
     MapVec result;
-    
+
     // given x, this function should assign f_i(x) to result[i]
     virtual void eval(const double x) = 0;
 public:
@@ -39,7 +39,7 @@ protected:
     int npoints;
     int nevals;
     MapMat result;
-    
+
     // given x, this function should assign f_i(x[j]) to result[i, j]
     virtual void eval(const double *x) = 0;
 public:
