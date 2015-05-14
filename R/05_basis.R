@@ -158,7 +158,7 @@ setMethod("plot", signature(x = "basis+", y = "missing"),
           }
 )
 
-#' @rdname inner_product
+#' @rdname inprod-methods
 #'
 #' @section Method (basis vs basis):
 #' \code{x} and \code{y} are two \code{\link[=basis+-class]{basis+}} objects,

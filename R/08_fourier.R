@@ -82,7 +82,7 @@ setMethod("plot", signature(x = "fourier+", y = "missing"),
           }
 )
 
-#' @rdname inner_product
+#' @rdname inprod-methods
 setMethod("%*%", signature(x = "fourier+", y = "fourier+"),
           function(x, y) {
               if(!isTRUE(all.equal(x@range, y@range)))

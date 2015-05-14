@@ -106,9 +106,8 @@ if(!isGeneric("plot"))
 #' functional data objects (basis functions, univariate functions and bivariate
 #' functions).
 #'
-#' @name %*%
-#' @rdname inner_product
-#' @aliases inner_product
+#' @name %*%-methods
+#' @rdname inprod-methods
 #' @usage x \%*\% y
 #'
 #' @param x,y Objects of classes \code{\link[=basis+-class]{basis+}},
@@ -123,8 +122,13 @@ if(!isGeneric("%*%"))
     setGeneric("%*%")
 
 
-## Arithmetic operations
-## "+", "-", "*", "/" and "^" are already defined in base package as generics
+#' Arithmetic Operations of Functional Data Objects
+#'
+#' Arithmetic Operations of \code{\link[=fd+-class]{fd+}}
+#' and \code{\link[=bifd+-class]{bifd+}} objects.
+#'
+#' @name arithmetic-methods
+NULL
 
 
 

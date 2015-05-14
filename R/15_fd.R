@@ -135,7 +135,7 @@ setMethod("plot", signature(x = "fd+", y = "missing"),
           }
 )
 
-#' @rdname inner_product
+#' @rdname inprod-methods
 #'
 #' @section Method (univariate function vs univariate function):
 #' \code{x} and \code{y} are two \code{\link[=fd+-class]{fd+}} objects
@@ -151,7 +151,7 @@ setMethod("%*%", signature(x = "fd+", y = "fd+"),
           }
 )
 
-#' @rdname inner_product
+#' @rdname inprod-methods
 #'
 #' @section Method (univariate function vs basis):
 #' Assueme that \code{x} is an \code{\link[=fd+-class]{fd+}} object and \code{y}
@@ -168,7 +168,7 @@ setMethod("%*%", signature(x = "fd+", y = "basis+"),
           }
 )
 
-#' @rdname inner_product
+#' @rdname inprod-methods
 setMethod("%*%", signature(x = "basis+", y = "fd+"),
           function(x, y) {
               (x %*% y@basis) %*% t(y@coefs)
