@@ -5,8 +5,9 @@
 \alias{fd+-class}
 \title{Univariate Functional Data Object}
 \description{
-A univariate functional data object consists of one or more function curves,
-each expressed as a linear combination of a system of basis functions.
+A univariate functional data object, of the class \code{fd+}, can be
+thought of as a vector whose elements are univariate functions
+that can be expressed as linear combination of a system of basis functions.
 Functions in one object are assumed to share the same basis, so an
 \code{fd+} object is composed of one \code{\link[=basis+-class]{basis+}}
 object and the corresponding coefficients.

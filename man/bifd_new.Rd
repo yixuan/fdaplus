@@ -15,7 +15,7 @@ bifd_new(coefs, sbasis, tbasis = sbasis)
                     \code{\link[=fourier+-class]{fourier+}}).}
 }
 \value{
-An \code{\link[=bifd+-class]{bifd+}} object with the given
+A \code{\link[=bifd+-class]{bifd+}} object with the given
         bases and coefficients.
 }
 \description{

@@ -133,6 +133,8 @@ if(!isGeneric("%*%"))
 #' @param e1,e2 Numeric scalars, or functional data objects of class
 #'              \code{\link[=fd+-class]{fd+}}
 #'              or \code{\link[=bifd+-class]{bifd+}}.
+#' @return See \strong{Method (...)} sections for the explanation of various
+#'         types of results.
 #'
 #' @export
 #' @author Yixuan Qiu <\url{http://statr.me/}>

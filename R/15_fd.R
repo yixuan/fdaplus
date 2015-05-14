@@ -1,7 +1,8 @@
 #' Univariate Functional Data Object
 #'
-#' A univariate functional data object consists of one or more function curves,
-#' each expressed as a linear combination of a system of basis functions.
+#' A univariate functional data object, of the class \code{fd+}, can be
+#' thought of as a vector whose elements are univariate functions
+#' that can be expressed as linear combination of a system of basis functions.
 #' Functions in one object are assumed to share the same basis, so an
 #' \code{fd+} object is composed of one \code{\link[=basis+-class]{basis+}}
 #' object and the corresponding coefficients.
@@ -177,6 +178,11 @@ setMethod("%*%", signature(x = "basis+", y = "fd+"),
 
 ## Arithmetic between fd+ and a scalar
 #' @rdname arithmetic-methods
+#'
+#' @section Method (fd+, numeric scalar):
+#' An \code{\link[=fd+-class]{fd+}} object can be multiplied or divided by
+#' a numeric scalar, which has the effect that all the functions in this object
+#' will be scaled by this constant.
 setMethod("*", signature(e1 = "fd+", e2 = "numeric"),
           function(e1, e2) {
               initialize(e1, coefs = e2[1] * e1@coefs)
@@ -197,6 +203,19 @@ setMethod("/", signature(e1 = "fd+", e2 = "numeric"),
 
 ## Arithmetic between fd+ objects
 #' @rdname arithmetic-methods
+#'
+#' @section Method (fd+, fd+):
+#' An \code{\link[=fd+-class]{fd+}} object can be added to or subtracted from
+#' another \code{\link[=fd+-class]{fd+}} object, if they have the same basis,
+#' and:
+#'
+#' \itemize{
+#'   \item One of them contains only one function curve, so that this single
+#'         function will be added to or subtracted from all the functions
+#'         in the other object.
+#'   \item Or, they have the same number of functions, so that addition and
+#'         subtraction will be done element-wisely.
+#' }
 setMethod("+", signature(e1 = "fd+", e2 = "fd+"),
           function(e1, e2) {
               if(!identical(e1@basis, e2@basis))

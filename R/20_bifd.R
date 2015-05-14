@@ -43,7 +43,7 @@ setClass("bifd+", slots = c(coefs = "matrix",
 #'                     \code{\link[=bspline+-class]{bspline+}} and the other be
 #'                     \code{\link[=fourier+-class]{fourier+}}).
 #'
-#' @return An \code{\link[=bifd+-class]{bifd+}} object with the given
+#' @return A \code{\link[=bifd+-class]{bifd+}} object with the given
 #'         bases and coefficients.
 #' @author Yixuan Qiu <\url{http://statr.me/}>
 #' @export
@@ -61,6 +61,11 @@ wrap.bifd = function(obj, ...)
 
 ## Arithmetic between bifd+ and a scalar
 #' @rdname arithmetic-methods
+#'
+#' @section Method (bifd+, numeric scalar):
+#' A \code{\link[=bifd+-class]{bifd+}} object can be multiplied or divided by
+#' a numeric scalar, and these operations will return the scaled bivariate
+#' function object.
 setMethod("*", signature(e1 = "bifd+", e2 = "numeric"),
           function(e1, e2) {
               initialize(e1, coefs = e2[1] * e1@coefs)
@@ -81,6 +86,10 @@ setMethod("/", signature(e1 = "bifd+", e2 = "numeric"),
 
 ## Arithmetic between bifd+ objects
 #' @rdname arithmetic-methods
+#'
+#' @section Method (bifd+, bifd+):
+#' A \code{\link[=bifd+-class]{bifd+}} object can be added to or subtracted from
+#' another \code{\link[=bifd+-class]{bifd+}} object, if they have the same bases.
 setMethod("+", signature(e1 = "bifd+", e2 = "bifd+"),
           function(e1, e2) {
               if(!identical(e1@sbasis, e2@sbasis) |

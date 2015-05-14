@@ -37,12 +37,50 @@
 }
 \arguments{
 \item{e1,e2}{Numeric scalars, or functional data objects of class
-             \code{\link[=fd+-class]{fd+}}
-             or \code{\link[=bifd+-class]{bifd+}}.}
+\code{\link[=fd+-class]{fd+}}
+or \code{\link[=bifd+-class]{bifd+}}.}
+}
+\value{
+See \strong{Method (...)} sections for the explanation of various
+        types of results.
 }
 \description{
 Simple arithmetic operations of \code{\link[=fd+-class]{fd+}}
 and \code{\link[=bifd+-class]{bifd+}} objects.
+}
+\section{Method (fd+, numeric scalar)}{
+
+An \code{\link[=fd+-class]{fd+}} object can be multiplied or divided by
+a numeric scalar, which has the effect that all the functions in this object
+will be scaled by this constant.
+}
+
+\section{Method (fd+, fd+)}{
+
+An \code{\link[=fd+-class]{fd+}} object can be added to or subtracted from
+another \code{\link[=fd+-class]{fd+}} object, if they have the same basis,
+and:
+
+\itemize{
+  \item One of them contains only one function curve, so that this single
+        function will be added to or subtracted from all the functions
+        in the other object.
+  \item Or, they have the same number of functions, so that addition and
+        subtraction will be done element-wisely.
+}
+}
+
+\section{Method (bifd+, numeric scalar)}{
+
+A \code{\link[=bifd+-class]{bifd+}} object can be multiplied or divided by
+a numeric scalar, and these operations will return the scaled bivariate
+function object.
+}
+
+\section{Method (bifd+, bifd+)}{
+
+A \code{\link[=bifd+-class]{bifd+}} object can be added to or subtracted from
+another \code{\link[=bifd+-class]{bifd+}} object, if they have the same bases.
 }
 \author{
 Yixuan Qiu <\url{http://statr.me/}>
