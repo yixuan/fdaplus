@@ -60,23 +60,27 @@ wrap.bifd = function(obj, ...)
 }
 
 ## Arithmetic between bifd+ and a scalar
+#' @rdname arithmetic-methods
 setMethod("*", signature(e1 = "bifd+", e2 = "numeric"),
           function(e1, e2) {
-              initialize(e1, coefs = e2 * e1@coefs)
+              initialize(e1, coefs = e2[1] * e1@coefs)
           }
 )
+#' @rdname arithmetic-methods
 setMethod("*", signature(e1 = "numeric", e2 = "bifd+"),
           function(e1, e2) {
-              initialize(e2, coefs = e1 * e2@coefs)
+              initialize(e2, coefs = e1[1] * e2@coefs)
           }
 )
+#' @rdname arithmetic-methods
 setMethod("/", signature(e1 = "bifd+", e2 = "numeric"),
           function(e1, e2) {
-              initialize(e1, coefs = e1@coefs / e2)
+              initialize(e1, coefs = e1@coefs / e2[1])
           }
 )
 
 ## Arithmetic between bifd+ objects
+#' @rdname arithmetic-methods
 setMethod("+", signature(e1 = "bifd+", e2 = "bifd+"),
           function(e1, e2) {
               if(!identical(e1@sbasis, e2@sbasis) |
@@ -85,6 +89,7 @@ setMethod("+", signature(e1 = "bifd+", e2 = "bifd+"),
               initialize(e1, coefs = e1@coefs + e2@coefs)
           }
 )
+#' @rdname arithmetic-methods
 setMethod("-", signature(e1 = "bifd+", e2 = "bifd+"),
           function(e1, e2) {
               if(!identical(e1@sbasis, e2@sbasis) |

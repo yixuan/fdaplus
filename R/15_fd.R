@@ -176,23 +176,27 @@ setMethod("%*%", signature(x = "basis+", y = "fd+"),
 )
 
 ## Arithmetic between fd+ and a scalar
+#' @rdname arithmetic-methods
 setMethod("*", signature(e1 = "fd+", e2 = "numeric"),
           function(e1, e2) {
-              initialize(e1, coefs = e2 * e1@coefs)
+              initialize(e1, coefs = e2[1] * e1@coefs)
           }
 )
+#' @rdname arithmetic-methods
 setMethod("*", signature(e1 = "numeric", e2 = "fd+"),
           function(e1, e2) {
-              initialize(e2, coefs = e1 * e2@coefs)
+              initialize(e2, coefs = e1[1] * e2@coefs)
           }
 )
+#' @rdname arithmetic-methods
 setMethod("/", signature(e1 = "fd+", e2 = "numeric"),
           function(e1, e2) {
-              initialize(e1, coefs = e1@coefs / e2)
+              initialize(e1, coefs = e1@coefs / e2[1])
           }
 )
 
 ## Arithmetic between fd+ objects
+#' @rdname arithmetic-methods
 setMethod("+", signature(e1 = "fd+", e2 = "fd+"),
           function(e1, e2) {
               if(!identical(e1@basis, e2@basis))
@@ -202,6 +206,7 @@ setMethod("+", signature(e1 = "fd+", e2 = "fd+"),
               initialize(e1, coefs = e1@coefs + e2@coefs)
           }
 )
+#' @rdname arithmetic-methods
 setMethod("-", signature(e1 = "fd+", e2 = "fd+"),
           function(e1, e2) {
               if(!identical(e1@basis, e2@basis))

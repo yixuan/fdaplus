@@ -114,6 +114,7 @@ if(!isGeneric("plot"))
 #'            \code{\link[=fd+-class]{fd+}} or \code{\link[=bifd+-class]{bifd+}}.
 #' @return See \strong{Method (...)} sections for the explanation of various
 #'         types of results.
+#'
 #' @export
 #' @author Yixuan Qiu <\url{http://statr.me/}>
 NULL
@@ -124,11 +125,20 @@ if(!isGeneric("%*%"))
 
 #' Arithmetic Operations of Functional Data Objects
 #'
-#' Arithmetic Operations of \code{\link[=fd+-class]{fd+}}
+#' Simple arithmetic operations of \code{\link[=fd+-class]{fd+}}
 #' and \code{\link[=bifd+-class]{bifd+}} objects.
 #'
 #' @name arithmetic-methods
+#'
+#' @param e1,e2 Numeric scalars, or functional data objects of class
+#'              \code{\link[=fd+-class]{fd+}}
+#'              or \code{\link[=bifd+-class]{bifd+}}.
+#'
+#' @export
+#' @author Yixuan Qiu <\url{http://statr.me/}>
 NULL
+
+## "+", "-", "*", "/" and "^" are already defined in base package as generics
 
 
 
