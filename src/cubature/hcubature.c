@@ -856,8 +856,9 @@ static heap_item heap_pop(heap *h)
      int i, n, child;
 
      if (!(h->n)) {
-	  fprintf(stderr, "attempted to pop an empty heap\n");
-	  exit(EXIT_FAILURE);
+	  /*fprintf(stderr, "attempted to pop an empty heap\n");
+	  exit(EXIT_FAILURE);*/
+	  return ret;
      }
 
      ret = h->items[0];
