@@ -219,20 +219,48 @@ setMethod("/", signature(e1 = "fd+", e2 = "numeric"),
 setMethod("+", signature(e1 = "fd+", e2 = "fd+"),
           function(e1, e2) {
               if(!identical(e1@basis, e2@basis))
-                  stop("need to have the same basis functions");
-              if(nrow(e1@coefs) != nrow(e2@coefs))
-                  stop("need to contain the same number of functions")
-              initialize(e1, coefs = e1@coefs + e2@coefs)
+                  stop("need to have the same basis functions")
+
+              n1 = nrow(e1@coefs)
+              n2 = nrow(e2@coefs)
+              if(n1 == 1)
+              {
+                  new_coefs = e2@coefs +
+                      matrix(rep(e1@coefs, n2), nrow = n2, byrow = TRUE)
+              } else if(n2 == 1) {
+                  new_coefs = e1@coefs +
+                      matrix(rep(e2@coefs, n1), nrow = n1, byrow = TRUE)
+              } else if(n1 == n2) {
+                  new_coefs = e1@coefs + e2@coefs
+              } else {
+                  stop("the two fd+ objects need to have the same number of functions,\n  or one of them contains only one function")
+              }
+
+              initialize(e1, coefs = new_coefs)
           }
 )
 #' @rdname arithmetic-methods
 setMethod("-", signature(e1 = "fd+", e2 = "fd+"),
           function(e1, e2) {
               if(!identical(e1@basis, e2@basis))
-                  stop("need to have the same basis functions");
-              if(nrow(e1@coefs) != nrow(e2@coefs))
-                  stop("need to contain the same number of functions")
-              initialize(e1, coefs = e1@coefs - e2@coefs)
+                  stop("need to have the same basis functions")
+
+              n1 = nrow(e1@coefs)
+              n2 = nrow(e2@coefs)
+              if(n1 == 1)
+              {
+                  new_coefs = matrix(rep(e1@coefs, n2), nrow = n2, byrow = TRUE) -
+                      e2@coefs
+              } else if(n2 == 1) {
+                  new_coefs = e1@coefs -
+                      matrix(rep(e2@coefs, n1), nrow = n1, byrow = TRUE)
+              } else if(n1 == n2) {
+                  new_coefs = e1@coefs - e2@coefs
+              } else {
+                  stop("the two fd+ objects need to have the same number of functions,\n  or one of them contains only one function")
+              }
+
+              initialize(e1, coefs = new_coefs)
           }
 )
 
