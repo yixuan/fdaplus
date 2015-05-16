@@ -11,8 +11,6 @@
 \alias{\%*\%-methods}
 \title{Calculating Inner Products between Functional Data Objects}
 \usage{
-x \%*\% y
-
 \S4method{\%*\%}{`basis+`,`basis+`}(x, y)
 
 \S4method{\%*\%}{`fourier+`,`fourier+`}(x, y)

@@ -71,7 +71,7 @@ representing the value of the \code{i}-th basis function evaluated on \code{x[j]
 \section{Method (fd+, numeric)}{
 
 \tabular{lcl}{
-  \code{f}  \tab - \tab  A \code{\link[=fd+-class]{fd+}} object. \cr
+  \code{f}  \tab - \tab  An \code{\link[=fd+-class]{fd+}} object. \cr
   \code{x}  \tab - \tab  A numeric vector.
 }
 
