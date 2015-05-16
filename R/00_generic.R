@@ -108,7 +108,6 @@ if(!isGeneric("plot"))
 #'
 #' @name %*%-methods
 #' @rdname inprod-methods
-#' @usage x \%*\% y
 #'
 #' @param x,y Objects of classes \code{\link[=basis+-class]{basis+}},
 #'            \code{\link[=fd+-class]{fd+}} or \code{\link[=bifd+-class]{bifd+}}.
