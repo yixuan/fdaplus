@@ -170,13 +170,27 @@ NULL
 #' @return A symmetric non-negative definite penalty matrix.
 #' @export
 #' @author Yixuan Qiu <\url{http://statr.me/}>
-#'
+NULL
+
 if(!isGeneric("penmat"))
     setGeneric("penmat", function(basis, penalty, ...)
         standardGeneric("penmat"))
 
 
-## Mean function
+#' Mean Function of Univariate Functinoal Data
+#'
+#' This function calculates the mean curve of a set of univariate functional data.
+#'
+#' @name mean-methods
+#'
+#' @param x An \code{\link[=fd+-class]{fd+}} object.
+#' @param \dots Currently unused.
+#'
+#' @return An \code{\link[=fd+-class]{fd+}} object that contains the mean function.
+#' @export
+#' @author Yixuan Qiu <\url{http://statr.me/}>
+NULL
+
 if(!isGeneric("mean"))
     setGeneric("mean")
 

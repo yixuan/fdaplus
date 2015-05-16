@@ -104,7 +104,7 @@ setMethod("[",
 #'
 #' @section Method (fd+, numeric):
 #' \tabular{lcl}{
-#'   \code{f}  \tab - \tab  A \code{\link[=fd+-class]{fd+}} object. \cr
+#'   \code{f}  \tab - \tab  An \code{\link[=fd+-class]{fd+}} object. \cr
 #'   \code{x}  \tab - \tab  A numeric vector.
 #' }
 #'
@@ -264,7 +264,7 @@ setMethod("-", signature(e1 = "fd+", e2 = "fd+"),
           }
 )
 
-## Calculate mean function
+#' @rdname mean-methods
 setMethod("mean", signature(x = "fd+"),
           function(x, ...) {
               initialize(x, coefs = t(colMeans(x@coefs)))
